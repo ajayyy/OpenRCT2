@@ -21,6 +21,7 @@
 #include "../world/Entrance.h"
 #include "../world/Footpath.h"
 
+#include "../localisation/Localisation.h"
 #include <bitset>
 #include <cstring>
 
@@ -40,7 +41,7 @@ RideId gPeepPathFindQueueRideIndex;
 // Use to guard calls to log messages
 static bool _pathFindDebug = false;
 // Use to put the peep name in the log message
-static utf8 _pathFindDebugPeepName[256];
+static char _pathFindDebugPeepName[256];
 #endif // defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
 
 static int32_t guest_surface_path_finding(Peep& peep);
@@ -712,9 +713,9 @@ static void peep_pathfind_heuristic_search(
     if (_peepPathFindHistory[0].location == loc)
     {
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-        if (gPathFindDebug)
+        if (_pathFindDebug)
         {
-            log_info("[%03d] Return from %d,%d,%d; At start", counter, loc.x >> 5, loc.y >> 5, loc.z);
+            log_info("[%03d] Return from %d,%d,%d; At start", counter, loc.x, loc.y, loc.z);
         }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
         return;
@@ -731,9 +732,9 @@ static void peep_pathfind_heuristic_search(
  * the test_edge so the current search path ends here.
  * Return without updating the parameters (best result so far). */
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
-                log_info("[%03d] Return from %d,%d,%d; Left patrol area", counter, loc.x >> 5, loc.y >> 5, loc.z);
+                log_info("[%03d] Return from %d,%d,%d; Left patrol area", counter, loc.x, loc.y, loc.z);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
             return;
@@ -877,10 +878,10 @@ static void peep_pathfind_heuristic_search(
 
 #
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-        if (gPathFindDebug)
+        if (_pathFindDebug)
         {
             log_info(
-                "[%03d] Checking map element at %d,%d,%d; Type: %s", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                "[%03d] Checking map element at %d,%d,%d; Type: %s", counter, loc.x, loc.y, loc.z,
                 pathSearchToString(searchResult));
         }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
@@ -919,10 +920,10 @@ static void peep_pathfind_heuristic_search(
                 }
             }
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
                 log_info(
-                    "[%03d] Search path ends at %d,%d,%d; At goal; Score: %d", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                    "[%03d] Search path ends at %d,%d,%d; At goal; Score: %d", counter, loc.x, loc.y, loc.z,
                     new_score);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
@@ -937,9 +938,9 @@ static void peep_pathfind_heuristic_search(
             && searchResult != PATH_SEARCH_WIDE)
         {
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
-                log_info("[%03d] Search path ends at %d,%d,%d; Not a path", counter, loc.x >> 5, loc.y >> 5, loc.z);
+                log_info("[%03d] Search path ends at %d,%d,%d; Not a path", counter, loc.x, loc.y, loc.z);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
             continue;
@@ -979,10 +980,10 @@ static void peep_pathfind_heuristic_search(
                 }
             }
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
                 log_info(
-                    "[%03d] Search path ends at %d,%d,%d; Wide path; Score: %d", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                    "[%03d] Search path ends at %d,%d,%d; Wide path; Score: %d", counter, loc.x, loc.y, loc.z,
                     new_score);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
@@ -996,10 +997,10 @@ static void peep_pathfind_heuristic_search(
         uint8_t edges = path_get_permitted_edges(tileElement->AsPath());
 
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-        if (gPathFindDebug)
+        if (_pathFindDebug)
         {
             log_info(
-                "[%03d] Path element at %d,%d,%d; Edges (0123):%d%d%d%d; Reverse: %d", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                "[%03d] Path element at %d,%d,%d; Edges (0123):%d%d%d%d; Reverse: %d", counter, loc.x, loc.y, loc.z,
                 edges & 1, (edges & 2) >> 1, (edges & 4) >> 2, (edges & 8) >> 3, test_edge ^ 2);
         }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
@@ -1014,9 +1015,9 @@ static void peep_pathfind_heuristic_search(
         if (next_test_edge == -1)
         {
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
-                log_info("[%03d] Search path ends at %d,%d,%d; No more edges/dead end", counter, loc.x >> 5, loc.y >> 5, loc.z);
+                log_info("[%03d] Search path ends at %d,%d,%d; No more edges/dead end", counter, loc.x, loc.y, loc.z);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
             continue;
@@ -1049,10 +1050,10 @@ static void peep_pathfind_heuristic_search(
                 }
             }
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
                 log_info(
-                    "[%03d] Search path ends at %d,%d,%d; Search limit reached; Score: %d", counter, loc.x >> 5, loc.y >> 5,
+                    "[%03d] Search path ends at %d,%d,%d; Search limit reached; Score: %d", counter, loc.x, loc.y,
                     loc.z, new_score);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
@@ -1123,9 +1124,9 @@ static void peep_pathfind_heuristic_search(
 /* Loop detected.  The current search path ends here.
  * Continue to the next map element without updating the parameters (best result so far). */
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-                    if (gPathFindDebug)
+                    if (_pathFindDebug)
                     {
-                        log_info("[%03d] Search path ends at %d,%d,%d; Loop", counter, loc.x >> 5, loc.y >> 5, loc.z);
+                        log_info("[%03d] Search path ends at %d,%d,%d; Loop", counter, loc.x, loc.y, loc.z);
                     }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
                     continue;
@@ -1155,10 +1156,10 @@ static void peep_pathfind_heuristic_search(
                         }
                     }
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-                    if (gPathFindDebug)
+                    if (_pathFindDebug)
                     {
                         log_info(
-                            "[%03d] Search path ends at %d,%d,%d; NumJunctions < 0; Score: %d", counter, loc.x >> 5, loc.y >> 5,
+                            "[%03d] Search path ends at %d,%d,%d; NumJunctions < 0; Score: %d", counter, loc.x, loc.y,
                             loc.z, new_score);
                     }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
@@ -1187,23 +1188,23 @@ static void peep_pathfind_heuristic_search(
                 height += 2;
             }
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
                 if (searchResult == PATH_SEARCH_JUNCTION)
                 {
                     if (thin_junction)
                         log_info(
-                            "[%03d] Recurse from %d,%d,%d edge: %d; Thin-Junction", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                            "[%03d] Recurse from %d,%d,%d edge: %d; Thin-Junction", counter, loc.x, loc.y, loc.z,
                             next_test_edge);
                     else
                         log_info(
-                            "[%03d] Recurse from %d,%d,%d edge: %d; Wide-Junction", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                            "[%03d] Recurse from %d,%d,%d edge: %d; Wide-Junction", counter, loc.x, loc.y, loc.z,
                             next_test_edge);
                 }
                 else
                 {
                     log_info(
-                        "[%03d] Recurse from %d,%d,%d edge: %d; Segment", counter, loc.x >> 5, loc.y >> 5, loc.z,
+                        "[%03d] Recurse from %d,%d,%d edge: %d; Segment", counter, loc.x, loc.y, loc.z,
                         next_test_edge);
                 }
             }
@@ -1221,7 +1222,7 @@ static void peep_pathfind_heuristic_search(
             _peepPathFindNumJunctions = savedNumJunctions;
 
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
                 log_info(
                     "[%03d] Returned to %d,%d,%d edge: %d; Score: %d", counter, loc.x >> 5, loc.y >> 5, loc.z, next_test_edge,
@@ -1237,18 +1238,18 @@ static void peep_pathfind_heuristic_search(
 /* No map element could be found.
  * Return without updating the parameters (best result so far). */
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-        if (gPathFindDebug)
+        if (_pathFindDebug)
         {
-            log_info("[%03d] Returning from %d,%d,%d; No relevant map element found", counter, loc.x >> 5, loc.y >> 5, loc.z);
+            log_info("[%03d] Returning from %d,%d,%d; No relevant map element found", counter, loc.x, loc.y, loc.z);
         }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
     }
     else
     {
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-        if (gPathFindDebug)
+        if (_pathFindDebug)
         {
-            log_info("[%03d] Returning from %d,%d,%d; All map elements checked", counter, loc.x >> 5, loc.y >> 5, loc.z);
+            log_info("[%03d] Returning from %d,%d,%d; All map elements checked", counter, loc.x, loc.y, loc.z);
         }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
     }
@@ -1279,7 +1280,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
     if (_pathFindDebug)
     {
-        log_verbose(
+        log_info(
             "Choose direction for %s for goal %d,%d,%d from %d,%d,%d", _pathFindDebugPeepName, goal.x, goal.y, goal.z, loc.x,
             loc.y, loc.z);
     }
@@ -1372,7 +1373,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
                 if (_pathFindDebug)
                 {
-                    log_verbose(
+                    log_info(
                         "Getting untried edges from pf_history for %d,%d,%d:  %s,%s,%s,%s", loc.x, loc.y, loc.z,
                         (edges & 1) ? "0" : "-", (edges & 2) ? "1" : "-", (edges & 4) ? "2" : "-", (edges & 8) ? "3" : "-");
                 }
@@ -1394,7 +1395,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
                     if (_pathFindDebug)
                     {
-                        log_verbose("All edges tried for %d,%d,%d - resetting to all untried", loc.x, loc.y, loc.z);
+                        log_info("All edges tried for %d,%d,%d - resetting to all untried", loc.x, loc.y, loc.z);
                     }
 #endif // defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
                 }
@@ -1417,7 +1418,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
         if (_pathFindDebug)
         {
-            log_verbose("New goal; clearing pf_history.");
+            log_info("New goal; clearing pf_history.");
         }
 #endif // defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
     }
@@ -1442,7 +1443,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 
         if (_pathFindDebug)
         {
-            log_verbose("Pathfind start for goal %d,%d,%d from %d,%d,%d", goal.x, goal.y, goal.z, loc.x, loc.y, loc.z);
+            log_info("Pathfind start for goal %d,%d,%d from %d,%d,%d", goal.x, goal.y, goal.z, loc.x, loc.y, loc.z);
         }
 #endif // defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
 
@@ -1514,9 +1515,9 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
             }
 
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
-            if (gPathFindDebug)
+            if (_pathFindDebug)
             {
-                log_verbose("Pathfind searching in direction: %d from %d,%d,%d", test_edge, loc.x >> 5, loc.y >> 5, loc.z);
+                log_info("Pathfind searching in direction: %d from %d,%d,%d", test_edge, loc.x, loc.y, loc.z);
             }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
 
@@ -1527,7 +1528,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
             if (_pathFindDebug)
             {
-                log_verbose(
+                log_info(
                     "Pathfind test edge: %d score: %d steps: %d end: %d,%d,%d junctions: %d", test_edge, score, endSteps,
                     endXYZ.x, endXYZ.y, endXYZ.z, endJunctions);
                 for (uint8_t listIdx = 0; listIdx < endJunctions; listIdx++)
@@ -1568,7 +1569,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
             if (_pathFindDebug)
             {
-                log_verbose("Pathfind heuristic search failed.");
+                log_info("Pathfind heuristic search failed.");
             }
 #endif // defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
             return INVALID_DIRECTION;
@@ -1603,7 +1604,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
                 if (_pathFindDebug)
                 {
-                    log_verbose(
+                    log_info(
                         "Updating existing pf_history (in index: %d) for %d,%d,%d without entry edge %d & exit edge %d.", i,
                         loc.x, loc.y, loc.z, direction_reverse(peep.PeepDirection), chosen_edge);
                 }
@@ -1625,7 +1626,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
         if (_pathFindDebug)
         {
-            log_verbose(
+            log_info(
                 "Storing new pf_history (in index: %d) for %d,%d,%d without entry edge %d & exit edge %d.", i, loc.x, loc.y,
                 loc.z, direction_reverse(peep.PeepDirection), chosen_edge);
         }
@@ -2317,21 +2318,23 @@ void PathfindLoggingEnable([[maybe_unused]] Peep& peep)
 {
 #    if defined(PATHFIND_DEBUG) && PATHFIND_DEBUG
     /* Determine if the pathfinding debugging is wanted for this peep. */
-    format_string(gPathFindDebugPeepName, sizeof(gPathFindDebugPeepName), peep.name_string_idx, &(peep.Id));
+    Formatter ft;
+    peep.FormatNameTo(ft);
+    format_string(_pathFindDebugPeepName, sizeof(_pathFindDebugPeepName), STR_STRINGID, ft.Data());
 
     /* For guests, use the existing PEEP_FLAGS_TRACKING flag to
      * determine for which guest(s) the pathfinding debugging will
      * be output for. */
-    if (peep.type == PEEP_TYPE_GUEST)
+    if (peep.SpriteType == PeepSpriteType::Normal)
     {
-        gPathFindDebug = peep.PeepFlags & PEEP_FLAGS_TRACKING;
+        _pathFindDebug = peep.PeepFlags & PEEP_FLAGS_TRACKING;
     }
     /* For staff, there is no tracking button (any other similar
      * suitable existing mechanism?), so fall back to a crude
      * string comparison with a compile time hardcoded name. */
     else
     {
-        gPathFindDebug = strcmp(gPathFindDebugPeepName, "Mechanic Debug") == 0;
+        //_pathFindDebug = strcmp(_pathFindDebugPeepName, "Mechanic Debug") == 0;
     }
 #    endif // defined(PATHFIND_DEBUG) && PATHFIND_DEBUG
 }
@@ -2339,7 +2342,7 @@ void PathfindLoggingEnable([[maybe_unused]] Peep& peep)
 void PathfindLoggingDisable()
 {
 #    if defined(PATHFIND_DEBUG) && PATHFIND_DEBUG
-    gPathFindDebug = false;
+    _pathFindDebug = false;
 #    endif // defined(PATHFIND_DEBUG) && PATHFIND_DEBUG
 }
 #endif // defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
