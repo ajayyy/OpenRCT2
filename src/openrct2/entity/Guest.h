@@ -204,6 +204,13 @@ struct Guest;
 struct Staff;
 struct CarEntry;
 
+struct GuestPathfindTransport
+{
+    bool         TransportUsing = false;
+    RideId       TransportId = RideId::GetNull();
+    StationIndex TransportStation = StationIndex::GetNull();
+};
+
 struct IntensityRange
 {
 private:
@@ -265,6 +272,7 @@ public:
     EntityId GuestNextInQueue;
     int32_t ParkEntryTime;
     RideId GuestHeadingToRideId;
+    GuestPathfindTransport PathfindTransport;
     uint8_t GuestIsLostCountdown;
     uint8_t GuestTimeOnRide;
     money16 PaidToEnter;
@@ -292,7 +300,7 @@ public:
     RideId Photo4RideRef;
 
     int8_t RejoinQueueTimeout; // whilst waiting for a free vehicle (or pair) in the entrance
-    RideId PreviousRide;
+    RideId PreviousRide = RideId::GetNull();
     uint16_t PreviousRideTimeOut;
     std::array<PeepThought, PEEP_MAX_THOUGHTS> Thoughts;
     // 0x3F Litter Count split into lots of 3 with time, 0xC0 Time since last recalc
