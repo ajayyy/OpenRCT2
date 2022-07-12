@@ -1919,6 +1919,72 @@ static int32_t cc_profiler_stop([[maybe_unused]] InteractiveConsole& console, [[
     return 0;
 }
 
+static int32_t cc_guest_headingto(InteractiveConsole& console, const arguments_t& argv)
+{
+    EntityId sprite_id = EntityId::GetNull();
+    RideId ride_id = RideId::GetNull();
+
+    sprite_id = EntityId::FromUnderlying(atoi(argv[1].c_str()));
+    //ride_id = atoi(argv[1].c_str());
+    ride_id = RideId::FromUnderlying(atoi(argv[0].c_str()));
+
+    for (auto peep : EntityList<Guest>())
+    {
+        if(argv.size() == 1)
+        {
+            peep->ResetPathfindGoal();
+            peep->GuestHeadingToRideId = ride_id;
+        }
+        else if (peep->sprite_index == sprite_id)
+        {
+            peep->ResetPathfindGoal();
+            peep->GuestHeadingToRideId = ride_id;
+            break;
+        }
+    }
+
+    return 0;
+}
+static int32_t cc_guest_leave(InteractiveConsole& console, const arguments_t& argv)
+{
+    //Force Guest to leave park
+    EntityId sprite_id = EntityId::GetNull();
+
+    sprite_id = EntityId::FromUnderlying(atoi(argv[0].c_str()));
+
+    for (auto peep : EntityList<Guest>())
+    {
+        if ((peep->sprite_index == sprite_id) || (argv.size() == 0))
+        {
+            // BEGIN - Copied from peep_leave_park
+            peep->GuestHeadingToRideId = RideId::GetNull();
+            if (peep->PeepFlags & PEEP_FLAGS_LEAVING_PARK)
+            {
+                if (peep->GuestIsLostCountdown < 60)
+                {
+                    //break;
+                }
+            }
+            else
+            {
+                peep->GuestIsLostCountdown = 254;
+                peep->PeepFlags |= PEEP_FLAGS_LEAVING_PARK;
+                peep->PeepFlags &= ~PEEP_FLAGS_PARK_ENTRANCE_CHOSEN;
+            }
+
+            peep->InsertNewThought(PeepThoughtType::GoHome);
+
+            rct_window* w = window_find_by_number(WC_PEEP, peep->sprite_index);
+            if (w != nullptr)
+                window_event_invalidate_call(w);
+            window_invalidate_by_number(WC_PEEP, peep->sprite_index);
+            //  END  - Copied from peep_leave_park
+        }
+    }
+
+    return 0;
+}
+
 using console_command_func = int32_t (*)(InteractiveConsole& console, const arguments_t& argv);
 struct console_command
 {
@@ -2027,6 +2093,8 @@ static constexpr const console_command console_command_table[] = {
     { "profiler_start", cc_profiler_start, "Starts the profiler.", "profiler_start" },
     { "profiler_stop", cc_profiler_stop, "Stops the profiler.", "profiler_stop [<output file>]" },
     { "profiler_exportcsv", cc_profiler_exportcsv, "Exports the current profiler data.", "profiler_exportcsv <output file>" },
+    { "guest", cc_guest_headingto, "Forces Guest to Head to Ride", "guest <Ride Id> <Sprite Id>" },
+    { "guest_leave", cc_guest_leave, "Forces Guest to leave park", "guest_leave <Sprite Id>" },
 };
 
 static int32_t cc_windows(InteractiveConsole& console, [[maybe_unused]] const arguments_t& argv)
