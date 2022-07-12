@@ -15,6 +15,8 @@
 #include "../ride/ShopItem.h"
 #include "Peep.h"
 
+#undef TRANSPORT_SAVE
+
 #define PEEP_MAX_THOUGHTS 5
 
 #define PEEP_HUNGER_WARNING_THRESHOLD 25

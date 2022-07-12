@@ -28,6 +28,7 @@
 #include "../entity/EntityList.h"
 #include "../entity/EntityRegistry.h"
 #include "../entity/Fountain.h"
+#include "../entity/Guest.h"
 #include "../entity/Litter.h"
 #include "../entity/MoneyEffect.h"
 #include "../entity/Particle.h"
@@ -1711,12 +1712,22 @@ namespace OpenRCT2
                 if (guest != nullptr)
                 {
                     cs.ReadWrite(guest->GuestHeadingToRideId);
+#if defined(TRANSPORT_SAVE)
+                    cs.ReadWrite(guest->PathfindTransport.TransportUsing);
+                    cs.ReadWrite(guest->PathfindTransport.TransportId);
+                    cs.ReadWrite(guest->PathfindTransport.TransportStation);
+#endif // defined(TRANSPORT_SAVE)
                     cs.ReadWrite(guest->GuestIsLostCountdown);
                     cs.ReadWrite(guest->Photo1RideRef);
                 }
                 else
                 {
                     cs.Ignore<RideId>();
+#if defined(TRANSPORT_SAVE)
+                    cs.Ignore<bool>();
+                    cs.Ignore<RideId>();
+                    cs.Ignore<StationIndex>();
+#endif // defined(TRANSPORT_SAVE)
                     cs.ReadWrite(staff->StaffOrders);
                     cs.Ignore<RideId>();
                 }
@@ -1925,6 +1936,11 @@ namespace OpenRCT2
         cs.ReadWrite(guest.GuestNextInQueue);
         cs.ReadWrite(guest.ParkEntryTime);
         cs.ReadWrite(guest.GuestHeadingToRideId);
+#if defined(TRANSPORT_SAVE)
+        cs.ReadWrite(guest.PathfindTransport.TransportUsing);
+        cs.ReadWrite(guest.PathfindTransport.TransportId);
+        cs.ReadWrite(guest.PathfindTransport.TransportStation);
+#endif // defined(TRANSPORT_SAVE)
         cs.ReadWrite(guest.GuestIsLostCountdown);
         cs.ReadWrite(guest.GuestTimeOnRide);
         cs.ReadWrite(guest.PaidToEnter);
