@@ -2183,7 +2183,7 @@ bool Guest::ShouldGoOnRide(Ride* ride, StationIndex entranceNum, bool atQueue, b
             ride->UpdatePopularity(1);
         }
 
-        if (ride->id == GuestHeadingToRideId)
+        if ((ride->id == GuestHeadingToRideId) && !PathfindTransport.TransportUsing)
         {
             peep_reset_ride_heading(this);
         }
@@ -2860,6 +2860,8 @@ static bool peep_should_go_on_ride_again(Guest* peep, Ride* ride)
     if (peep->Thirst < 20)
         return false;
     if (peep->Toilet > 170)
+        return false;
+    if (peep->PathfindTransport.TransportUsing && peep->PathfindTransport.TransportId == ride->id)
         return false;
 
     uint8_t r = (scenario_rand() & 0xFF);
@@ -4956,6 +4958,9 @@ void Guest::UpdateRideLeaveExit()
 
     InteractionRideIndex = RideId::GetNull();
     SetState(PeepState::Falling);
+
+    // Tell Peep Window to not display transport path upon ride exit. Pathfinding algorithm will commence after
+    this->PathfindTransport.TransportUsing = false;
 
     CoordsXY targetLoc = { x, y };
 
