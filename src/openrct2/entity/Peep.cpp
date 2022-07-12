@@ -1391,13 +1391,38 @@ void Peep::FormatActionTo(Formatter& ft) const
                     auto ride = get_ride(guest->GuestHeadingToRideId);
                     if (ride != nullptr)
                     {
-                        ft.Add<StringId>(STR_HEADING_FOR);
-                        ride->FormatNameTo(ft);
+                        auto transport = get_ride(guest->PathfindTransport.TransportId);
+                        if(guest->PathfindTransport.TransportUsing && transport != nullptr)
+                        {
+                            ft.Add<StringId>(STR_USING_TRANSPORT);
+                            transport->FormatNameTo(ft);
+                        }
+                        else
+                        {
+                            ft.Add<StringId>(STR_HEADING_FOR);
+                            ride->FormatNameTo(ft);
+                        }
                     }
                 }
                 else
                 {
-                    ft.Add<StringId>((PeepFlags & PEEP_FLAGS_LEAVING_PARK) ? STR_LEAVING_PARK : STR_WALKING);
+                    if(PeepFlags & PEEP_FLAGS_LEAVING_PARK)
+                    {
+                        auto transport = get_ride(guest->PathfindTransport.TransportId);
+                        if(guest->PathfindTransport.TransportUsing && transport != nullptr)
+                        {
+                            ft.Add<StringId>(STR_LEAVE_USING_TRANSPORT);
+                            transport->FormatNameTo(ft);
+                        }
+                        else
+                        {
+                            ft.Add<StringId>(STR_LEAVING_PARK);
+                        }
+                    }
+                    else
+                    {
+                        ft.Add<StringId>(STR_WALKING);
+                    }
                 }
             }
             break;

@@ -55,6 +55,8 @@ STR_1524    :“This burger from {STRINGID} is a really good value”
 STR_1525    :“These fries from {STRINGID} are a really good value”
 STR_1526    :“This ice cream from {STRINGID} is a really good value”
 STR_1527    :“This cotton candy from {STRINGID} is a really good value”
+STR_1528    :Using {STRINGID}
+STR_1529    :Leaving the park Using {STRINGID}
 
 STR_1531    :“This pizza from {STRINGID} is a really good value”
 
