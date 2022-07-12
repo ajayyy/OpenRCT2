@@ -148,9 +148,9 @@ void StdInOutConsole::WriteLine(const std::string& s, FormatToken colourFormat)
                 mainString = newString.c_str();
             }
 
-            std::printf("\r%s%s\x1b[0m\x1b[0K\r\n", formatBegin.c_str(), mainString);
+            std::printf("%s%s\r\n", formatBegin.c_str(), mainString);
             std::fflush(stdout);
-            linenoise::linenoiseEditRefreshLine();
+            //linenoise::linenoiseEditRefreshLine();
         }
         else
         {

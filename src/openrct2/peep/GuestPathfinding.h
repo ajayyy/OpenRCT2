@@ -94,7 +94,7 @@ extern std::unique_ptr<GuestPathfinding> gGuestPathfinder;
 
 #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
 #    define PATHFIND_DEBUG                                                                                                     \
-        0 // Set to 0 to disable pathfinding debugging;
+        1 // Set to 0 to disable pathfinding debugging;
           // Set to 1 to enable pathfinding debugging.
 
 // When PATHFIND_DEBUG is 1 (nonzero):

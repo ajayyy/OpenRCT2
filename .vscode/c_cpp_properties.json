@@ -24,7 +24,8 @@
                 "/Library/Frameworks"
             ],
             "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         },
         {
             "name": "Linux",

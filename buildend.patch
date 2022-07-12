@@ -1,0 +1,71 @@
+diff --git a/.vscode/c_cpp_properties.json b/.vscode/c_cpp_properties.json
+index e63d2b587..cc84cb3b4 100644
+--- a/.vscode/c_cpp_properties.json
++++ b/.vscode/c_cpp_properties.json
+@@ -24,7 +24,8 @@
+                 "/Library/Frameworks"
+             ],
+             "cStandard": "c11",
+-            "cppStandard": "c++17"
++            "cppStandard": "c++17",
++            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+         },
+         {
+             "name": "Linux",
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 312ab671c..e5ff9e1c1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -329,7 +329,7 @@ else ()
+     set(DEBUG_LEVEL 0 CACHE STRING "Select debug level for compilation. Use value in range 0–3.")
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstrict-aliasing -Werror -Wundef -Wmissing-declarations -Winit-self -Wall -Wextra -Wshadow")
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-missing-braces -Wno-comment -Wnonnull -Wno-unused-parameter -Wno-attributes")
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG=${DEBUG_LEVEL}")
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG=2")
+ 
+     if(APPLE)
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=objc-method-access")
+diff --git a/src/openrct2/Diagnostic.h b/src/openrct2/Diagnostic.h
+index 3ecfe7ad3..ff6ec361f 100644
+--- a/src/openrct2/Diagnostic.h
++++ b/src/openrct2/Diagnostic.h
+@@ -64,8 +64,8 @@ enum class DiagnosticLevel
+ #    endif // DEBUG > 0
+ #else
+ #    define DEBUG_LEVEL_3 0
+-#    define DEBUG_LEVEL_2 0
+-#    define DEBUG_LEVEL_1 0
++#    define DEBUG_LEVEL_2 1
++#    define DEBUG_LEVEL_1 1
+ #endif // defined(DEBUG)
+ 
+ extern bool _log_levels[static_cast<uint8_t>(DiagnosticLevel::Count)];
+diff --git a/src/openrct2/interface/StdInOutConsole.cpp b/src/openrct2/interface/StdInOutConsole.cpp
+index f3b5b4817..a8694d269 100644
+--- a/src/openrct2/interface/StdInOutConsole.cpp
++++ b/src/openrct2/interface/StdInOutConsole.cpp
+@@ -148,9 +148,9 @@ void StdInOutConsole::WriteLine(const std::string& s, FormatToken colourFormat)
+                 mainString = newString.c_str();
+             }
+ 
+-            std::printf("\r%s%s\x1b[0m\x1b[0K\r\n", formatBegin.c_str(), mainString);
++            std::printf("%s%s\r\n", formatBegin.c_str(), mainString);
+             std::fflush(stdout);
+-            linenoise::linenoiseEditRefreshLine();
++            //linenoise::linenoiseEditRefreshLine();
+         }
+         else
+         {
+diff --git a/src/openrct2/peep/GuestPathfinding.h b/src/openrct2/peep/GuestPathfinding.h
+index 0731305f8..de4d3e808 100644
+--- a/src/openrct2/peep/GuestPathfinding.h
++++ b/src/openrct2/peep/GuestPathfinding.h
+@@ -92,7 +92,7 @@ extern std::unique_ptr<GuestPathfinding> gGuestPathfinder;
+ 
+ #if defined(DEBUG_LEVEL_1) && DEBUG_LEVEL_1
+ #    define PATHFIND_DEBUG                                                                                                     \
+-        0 // Set to 0 to disable pathfinding debugging;
++        1 // Set to 0 to disable pathfinding debugging;
+           // Set to 1 to enable pathfinding debugging.
+ 
+ // When PATHFIND_DEBUG is 1 (nonzero):

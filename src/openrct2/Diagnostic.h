@@ -64,8 +64,8 @@ enum class DiagnosticLevel
 #    endif // DEBUG > 0
 #else
 #    define DEBUG_LEVEL_3 0
-#    define DEBUG_LEVEL_2 0
-#    define DEBUG_LEVEL_1 0
+#    define DEBUG_LEVEL_2 1
+#    define DEBUG_LEVEL_1 1
 #endif // defined(DEBUG)
 
 extern bool _log_levels[static_cast<uint8_t>(DiagnosticLevel::Count)];
