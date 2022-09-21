@@ -15,7 +15,7 @@
 #include "../ride/ShopItem.h"
 #include "Peep.h"
 
-#undef TRANSPORT_SAVE
+#define TRANSPORT_SAVE
 
 #define PEEP_MAX_THOUGHTS 5
 
