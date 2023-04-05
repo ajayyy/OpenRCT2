@@ -208,8 +208,8 @@ struct CarEntry;
 
 struct GuestPathfindTransport
 {
-    bool         TransportUsing = false;
-    RideId       TransportId = RideId::GetNull();
+    bool TransportUsing = false;
+    RideId TransportId = RideId::GetNull();
     StationIndex TransportStation = StationIndex::GetNull();
 };
 

@@ -160,7 +160,7 @@ using StringId = uint16_t;
 #define SafeDeleteArray(x)                                                                                                     \
     do                                                                                                                         \
     {                                                                                                                          \
-        delete[](x);                                                                                                           \
+        delete[](x);                                                                                                          \
         (x) = nullptr;                                                                                                         \
     } while (false)
 
