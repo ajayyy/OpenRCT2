@@ -16,6 +16,18 @@
       <Configuration>Debug</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseLTCG|arm64">
+      <Configuration>ReleaseLTCG</Configuration>
+      <Platform>arm64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseLTCG|Win32">
+      <Configuration>ReleaseLTCG</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseLTCG|x64">
+      <Configuration>ReleaseLTCG</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -136,6 +148,7 @@
     <ClCompile Include="UiContext.Win32.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="windows\About.cpp" />
+    <ClCompile Include="windows\AssetPacks.cpp" />
     <ClCompile Include="windows\Banner.cpp" />
     <ClCompile Include="windows\Changelog.cpp" />
     <ClCompile Include="windows\Cheats.cpp" />

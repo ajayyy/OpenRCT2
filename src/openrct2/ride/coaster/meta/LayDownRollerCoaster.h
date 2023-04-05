@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -19,11 +19,11 @@ constexpr const RideTypeDescriptor LayDownRollerCoasterRTD =
 {
     SET_FIELD(AlternateType, RIDE_TYPE_LAY_DOWN_ROLLER_COASTER_ALT),
     SET_FIELD(Category, RIDE_CATEGORY_ROLLERCOASTER),
-    SET_FIELD(EnabledTrackPieces, {TRACK_STRAIGHT, TRACK_STATION_END, TRACK_LIFT_HILL, TRACK_FLAT_ROLL_BANKING, TRACK_VERTICAL_LOOP, TRACK_SLOPE, TRACK_SLOPE_STEEP_UP, TRACK_SLOPE_STEEP_DOWN, TRACK_SLOPE_CURVE, TRACK_SLOPE_CURVE_STEEP, TRACK_S_BEND, TRACK_CURVE_SMALL, TRACK_CURVE, TRACK_HELIX_SMALL, TRACK_BRAKES, TRACK_ON_RIDE_PHOTO, TRACK_BLOCK_BRAKES, TRACK_INLINE_TWIST_UNINVERTED, TRACK_FLYING_HALF_LOOP_UNINVERTED_UP, TRACK_CORKSCREW_UNINVERTED}),
-    SET_FIELD(ExtraTrackPieces, {TRACK_FLYING_HALF_LOOP_UNINVERTED_DOWN}),
+    SET_FIELD(EnabledTrackPieces, {TRACK_STRAIGHT, TRACK_STATION_END, TRACK_LIFT_HILL, TRACK_FLAT_ROLL_BANKING, TRACK_VERTICAL_LOOP, TRACK_SLOPE, TRACK_SLOPE_STEEP_UP, TRACK_SLOPE_STEEP_DOWN, TRACK_SLOPE_CURVE, TRACK_SLOPE_CURVE_STEEP, TRACK_S_BEND, TRACK_CURVE_SMALL, TRACK_CURVE, TRACK_HELIX_SMALL, TRACK_BRAKES, TRACK_ON_RIDE_PHOTO, TRACK_BLOCK_BRAKES, TRACK_INLINE_TWIST_UNINVERTED, TRACK_FLYING_HALF_LOOP_UNINVERTED_UP, TRACK_CORKSCREW_UNINVERTED, TRACK_SLOPE_STEEP_LONG}),
+    SET_FIELD(ExtraTrackPieces, {TRACK_FLYING_HALF_LOOP_UNINVERTED_DOWN, TRACK_BOOSTER}),
     SET_FIELD(CoveredTrackPieces, {}),
     SET_FIELD(StartTrackPiece, TrackElemType::EndStation),
-    SET_FIELD(TrackPaintFunction, get_track_paint_function_lay_down_rc),
+    SET_FIELD(TrackPaintFunction, GetTrackPaintFunctionLayDownRC),
     SET_FIELD(Flags, RIDE_TYPE_FLAGS_TRACK_HAS_3_COLOURS | RIDE_TYPE_FLAG_HAS_LEAVE_WHEN_ANOTHER_VEHICLE_ARRIVES_AT_STATION |
                      RIDE_TYPE_FLAGS_COMMON_COASTER | RIDE_TYPE_FLAGS_COMMON_COASTER_NON_ALT | RIDE_TYPE_FLAG_HAS_LARGE_CURVES |
                      RIDE_TYPE_FLAG_HAS_ALTERNATIVE_TRACK_TYPE | RIDE_TYPE_FLAG_PEEP_CHECK_GFORCES | RIDE_TYPE_FLAG_ALLOW_MULTIPLE_CIRCUITS),
@@ -37,7 +37,7 @@ constexpr const RideTypeDescriptor LayDownRollerCoasterRTD =
     SET_FIELD(Heights, { 26, 24, 8, 11, }),
     SET_FIELD(MaxMass, 25),
     SET_FIELD(LiftData, { OpenRCT2::Audio::SoundId::LiftClassic, 4, 6 }),
-    SET_FIELD(RatingsCalculationFunction, ride_ratings_calculate_lay_down_roller_coaster),
+    SET_FIELD(RatingsCalculationFunction, RideRatingsCalculateLayDownRollerCoaster),
     SET_FIELD(RatingsMultipliers, { 50, 30, 10 }),
     SET_FIELD(UpkeepCosts, { 49, 20, 90, 11, 3, 15 }),
     SET_FIELD(BuildCosts, { 53.50_GBP, 2.50_GBP, 50, }),
@@ -60,7 +60,7 @@ constexpr const RideTypeDescriptor LayDownRollerCoasterAltRTD =
     SET_FIELD(AlternateType, RIDE_TYPE_NULL),
     SET_FIELD(Category, RIDE_CATEGORY_NONE),
     SET_FIELD(EnabledTrackPieces, {TRACK_STRAIGHT, TRACK_FLAT_ROLL_BANKING, TRACK_SLOPE, TRACK_SLOPE_STEEP_UP, TRACK_SLOPE_STEEP_DOWN, TRACK_SLOPE_CURVE, TRACK_SLOPE_CURVE_STEEP, TRACK_S_BEND, TRACK_CURVE_SMALL, TRACK_CURVE, TRACK_HELIX_LARGE, TRACK_BRAKES, TRACK_ON_RIDE_PHOTO, TRACK_BLOCK_BRAKES, TRACK_INLINE_TWIST_INVERTED, TRACK_FLYING_HALF_LOOP_INVERTED_DOWN, TRACK_CORKSCREW_INVERTED}),
-    SET_FIELD(ExtraTrackPieces, {TRACK_FLYING_HALF_LOOP_INVERTED_UP}),
+    SET_FIELD(ExtraTrackPieces, {TRACK_FLYING_HALF_LOOP_INVERTED_UP, TRACK_STATION_END, TRACK_LIFT_HILL}),
     SET_FIELD(CoveredTrackPieces, {}),
     SET_FIELD(StartTrackPiece, TrackElemType::EndStation),
     SET_FIELD(TrackPaintFunction, nullptr),
@@ -76,7 +76,7 @@ constexpr const RideTypeDescriptor LayDownRollerCoasterAltRTD =
     SET_FIELD(Heights, { 26, 24, 8, 11, }),
     SET_FIELD(MaxMass, 25),
     SET_FIELD(LiftData, { OpenRCT2::Audio::SoundId::LiftClassic, 4, 6 }),
-    SET_FIELD(RatingsCalculationFunction, ride_ratings_calculate_lay_down_roller_coaster),
+    SET_FIELD(RatingsCalculationFunction, RideRatingsCalculateLayDownRollerCoaster),
     SET_FIELD(RatingsMultipliers, { 50, 30, 10 }),
     SET_FIELD(UpkeepCosts, { 49, 20, 90, 11, 3, 15 }),
     SET_FIELD(BuildCosts, { 53.50_GBP, 2.50_GBP, 50, }),

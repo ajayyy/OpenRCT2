@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -94,20 +94,6 @@ public:
         return result;
     }
 
-    [[nodiscard]] static ImageId FromUInt32(uint32_t value, uint32_t tertiary)
-    {
-        if (!(value & FLAG_PRIMARY) && (value & FLAG_SECONDARY))
-        {
-            auto result = ImageId::FromUInt32(value).WithTertiary(tertiary);
-            assert(result.ToUInt32() == value);
-            return result;
-        }
-        else
-        {
-            return ImageId::FromUInt32(value);
-        }
-    }
-
     ImageId() = default;
 
     explicit constexpr ImageId(ImageIndex index)
@@ -135,7 +121,7 @@ public:
     {
     }
 
-    [[nodiscard]] uint32_t ToUInt32() const
+    [[nodiscard]] constexpr uint32_t ToUInt32() const
     {
         auto result = (_index & MASK_INDEX);
         result |= (_primary << SHIFT_REMAP) & MASK_REMAP;
@@ -254,6 +240,14 @@ public:
         return result;
     }
 
+    [[nodiscard]] constexpr ImageId WithoutSecondary() const
+    {
+        ImageId result = *this;
+        result._secondary = 0;
+        result._flags &= ~NEW_FLAG_SECONDARY;
+        return result;
+    }
+
     [[nodiscard]] constexpr ImageId WithTertiary(colour_t tertiary) const
     {
         ImageId result = *this;
@@ -269,12 +263,12 @@ public:
         return result;
     }
 
-    [[nodiscard]] ImageId WithTransparancy(colour_t colour) const
+    [[nodiscard]] ImageId WithTransparency(colour_t colour) const
     {
-        return WithTransparancy(GetGlassPaletteId(colour & 31));
+        return WithTransparency(GetGlassPaletteId(colour & 31));
     }
 
-    [[nodiscard]] ImageId WithTransparancy(FilterPaletteID palette) const
+    [[nodiscard]] ImageId WithTransparency(FilterPaletteID palette) const
     {
         ImageId result = *this;
         result._primary = static_cast<uint8_t>(palette);
@@ -293,5 +287,16 @@ public:
             result._flags &= ~NEW_FLAG_BLEND;
         return result;
     }
+
+    constexpr bool operator==(const ImageId& rhs) const
+    {
+        return _index == rhs._index && _primary == rhs._primary && _secondary == rhs._secondary && _tertiary == rhs._tertiary
+            && _flags == rhs._flags;
+    }
+
+    constexpr bool operator!=(const ImageId& rhs) const
+    {
+        return !(*this == rhs);
+    }
 };
-static_assert(sizeof(ImageId) == 8);
+static_assert(sizeof(ImageId) == 8, "The size of this struct is expected to fit in 64 bits for perfomance reasons. See #18555");

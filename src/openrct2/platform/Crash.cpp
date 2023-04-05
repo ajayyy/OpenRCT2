@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -56,7 +56,7 @@ static const wchar_t* _wszCommitSha1Short = WSZ("");
 static const wchar_t* _wszArchitecture = WSZ(OPENRCT2_ARCHITECTURE);
 static std::map<std::wstring, std::wstring> _uploadFiles;
 
-#    define BACKTRACE_TOKEN L"0ca992e20aca116b5e090fd2eaff6e7b5c8225f778fd8f4e77cb077d70329324"
+#    define BACKTRACE_TOKEN L"d3de8c689ea81ff21e030f1afeea5e293c0be6bfaae6975cd353c23fe6948322"
 
 using namespace OpenRCT2;
 
@@ -104,13 +104,13 @@ static bool OnCrash(
 {
     if (!succeeded)
     {
-        constexpr const char* DumpFailedMessage = "Failed to create the dump. Please file an issue with OpenRCT2 on GitHub and "
-                                                  "provide latest save, and provide "
-                                                  "information about what you did before the crash occurred.";
-        printf("%s\n", DumpFailedMessage);
+        constexpr const wchar_t* DumpFailedMessage = L"Failed to create the dump. Please file an issue with OpenRCT2 on GitHub "
+                                                     L"and provide latest save, and provide information about what you did "
+                                                     L"before the crash occurred.";
+        wprintf(L"%ls\n", DumpFailedMessage);
         if (!gOpenRCT2SilentBreakpad)
         {
-            MessageBoxA(nullptr, DumpFailedMessage, OPENRCT2_NAME, MB_OK | MB_ICONERROR);
+            MessageBoxW(nullptr, DumpFailedMessage, L"" OPENRCT2_NAME, MB_OK | MB_ICONERROR);
         }
         return succeeded;
     }
@@ -138,7 +138,7 @@ static bool OnCrash(
         FILE* input = _wfopen(dumpFilePath, L"rb");
         FILE* dest = _wfopen(dumpFilePathGZIP, L"wb");
 
-        if (util_gzip_compress(input, dest))
+        if (UtilGzipCompress(input, dest))
         {
             // TODO: enable upload of gzip-compressed dumps once supported on
             // backtrace.io (uncomment the line below). For now leave compression
@@ -153,7 +153,7 @@ static bool OnCrash(
         fclose(dest);
     }
 
-    bool with_record = stop_silent_record();
+    bool with_record = StopSilentRecord();
 
     // Try to rename the files
     if (_wrename(dumpFilePath, dumpFilePathNew) == 0)
@@ -198,7 +198,7 @@ static bool OnCrash(
     }
 
     auto configFilePathUTF8 = String::ToUtf8(configFilePath);
-    if (config_save(configFilePathUTF8))
+    if (ConfigSave(configFilePathUTF8))
     {
         _uploadFiles[L"attachment_config.ini"] = configFilePath;
     }
@@ -214,7 +214,7 @@ static bool OnCrash(
     // Discovering which of the approaches got implemented is left as an excercise for the reader.
     if (OpenRCT2::GetContext()->GetDrawingEngineType() != DrawingEngine::OpenGL)
     {
-        std::string screenshotPath = screenshot_dump();
+        std::string screenshotPath = ScreenshotDump();
         if (!screenshotPath.empty())
         {
             auto screenshotPathW = String::ToWideChar(screenshotPath.c_str());
@@ -328,7 +328,7 @@ constexpr const wchar_t* PipeName = L"openrct2-bpad";
 
 #endif // USE_BREAKPAD
 
-CExceptionHandler crash_init()
+CExceptionHandler CrashInit()
 {
 #ifdef USE_BREAKPAD
     // Path must exist and be RW!
@@ -340,14 +340,14 @@ CExceptionHandler crash_init()
 #endif // USE_BREAKPAD
 }
 
-void crash_register_additional_file(const std::string& key, const std::string& path)
+void CrashRegisterAdditionalFile(const std::string& key, const std::string& path)
 {
 #ifdef USE_BREAKPAD
     _uploadFiles[String::ToWideChar(key.c_str())] = String::ToWideChar(path.c_str());
 #endif // USE_BREAKPAD
 }
 
-void crash_unregister_additional_file(const std::string& key)
+void CrashUnregisterAdditionalFile(const std::string& key)
 {
 #ifdef USE_BREAKPAD
     auto it = _uploadFiles.find(String::ToWideChar(key.c_str()));

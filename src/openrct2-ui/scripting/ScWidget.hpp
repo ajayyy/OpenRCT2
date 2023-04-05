@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -21,6 +21,7 @@
 #    include <openrct2/Context.h>
 #    include <openrct2/common.h>
 #    include <openrct2/scripting/Duktape.hpp>
+#    include <openrct2/scripting/IconNames.hpp>
 #    include <openrct2/scripting/ScriptEngine.h>
 
 namespace OpenRCT2::Scripting
@@ -41,7 +42,7 @@ namespace OpenRCT2::Scripting
         {
         }
 
-        static DukValue ToDukValue(duk_context* ctx, rct_window* w, WidgetIndex widgetIndex);
+        static DukValue ToDukValue(duk_context* ctx, WindowBase* w, WidgetIndex widgetIndex);
 
     private:
         std::shared_ptr<ScWindow> window_get() const;
@@ -102,7 +103,7 @@ namespace OpenRCT2::Scripting
                     case WindowWidgetType::Caption:
                         return "caption";
                     case WindowWidgetType::Scroll:
-                        return "scroll_view";
+                        return "listview";
                     case WindowWidgetType::Checkbox:
                         return "checkbox";
                     case WindowWidgetType::TextBox:
@@ -145,19 +146,19 @@ namespace OpenRCT2::Scripting
                     auto buttonWidget = widget + 1;
                     buttonWidget->left += delta;
                     buttonWidget->right += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
                 }
                 else if (widget->type == WindowWidgetType::Spinner)
                 {
                     auto upWidget = widget + 1;
                     upWidget->left += delta;
                     upWidget->right += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
 
                     auto downWidget = widget + 2;
                     downWidget->left += delta;
                     downWidget->right += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 2);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 2);
                 }
 
                 Invalidate();
@@ -189,19 +190,19 @@ namespace OpenRCT2::Scripting
                     auto buttonWidget = widget + 1;
                     buttonWidget->top += delta;
                     buttonWidget->bottom += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
                 }
                 else if (widget->type == WindowWidgetType::Spinner)
                 {
                     auto upWidget = widget + 1;
                     upWidget->top += delta;
                     upWidget->bottom += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
 
                     auto downWidget = widget + 2;
                     downWidget->top += delta;
                     downWidget->bottom += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 2);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 2);
                 }
 
                 Invalidate();
@@ -232,19 +233,19 @@ namespace OpenRCT2::Scripting
                     auto buttonWidget = widget + 1;
                     buttonWidget->left += delta;
                     buttonWidget->right += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
                 }
                 else if (widget->type == WindowWidgetType::Spinner)
                 {
                     auto upWidget = widget + 1;
                     upWidget->left += delta;
                     upWidget->right += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
 
                     auto downWidget = widget + 2;
                     downWidget->left += delta;
                     downWidget->right += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 2);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 2);
                 }
 
                 Invalidate();
@@ -274,20 +275,38 @@ namespace OpenRCT2::Scripting
                 {
                     auto buttonWidget = widget + 1;
                     buttonWidget->bottom += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
                 }
                 else if (widget->type == WindowWidgetType::Spinner)
                 {
                     auto upWidget = widget + 1;
                     upWidget->bottom += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 1);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 1);
 
                     auto downWidget = widget + 2;
                     downWidget->bottom += delta;
-                    widget_invalidate_by_number(_class, _number, _widgetIndex + 2);
+                    WidgetInvalidateByNumber(_class, _number, _widgetIndex + 2);
                 }
 
                 Invalidate();
+            }
+        }
+
+        std::string tooltip_get() const
+        {
+            auto w = GetWindow();
+            if (w != nullptr && IsCustomWindow())
+            {
+                return OpenRCT2::Ui::Windows::GetWidgetTooltip(w, _widgetIndex);
+            }
+            return {};
+        }
+        void tooltip_set(const std::string& value)
+        {
+            auto w = GetWindow();
+            if (w != nullptr && IsCustomWindow())
+            {
+                OpenRCT2::Ui::Windows::SetWidgetTooltip(w, _widgetIndex, value);
             }
         }
 
@@ -382,15 +401,15 @@ namespace OpenRCT2::Scripting
         static void Register(duk_context* ctx);
 
     protected:
-        rct_window* GetWindow() const
+        WindowBase* GetWindow() const
         {
             if (_class == WindowClass::MainWindow)
-                return window_get_main();
+                return WindowGetMain();
 
-            return window_find_by_number(_class, _number);
+            return WindowFindByNumber(_class, _number);
         }
 
-        rct_widget* GetWidget() const
+        Widget* GetWidget() const
         {
             auto w = GetWindow();
             if (w != nullptr)
@@ -412,7 +431,7 @@ namespace OpenRCT2::Scripting
 
         void Invalidate()
         {
-            widget_invalidate_by_number(_class, _number, _widgetIndex);
+            WidgetInvalidateByNumber(_class, _number, _widgetIndex);
         }
     };
 
@@ -430,6 +449,9 @@ namespace OpenRCT2::Scripting
             dukglue_register_property(ctx, &ScButtonWidget::border_get, &ScButtonWidget::border_set, "border");
             dukglue_register_property(ctx, &ScButtonWidget::isPressed_get, &ScButtonWidget::isPressed_set, "isPressed");
             dukglue_register_property(ctx, &ScButtonWidget::image_get, &ScButtonWidget::image_set, "image");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScButtonWidget, std::string, std::string>(
+                ctx, &ScButtonWidget::text_get, &ScButtonWidget::text_set, "text");
         }
 
     private:
@@ -479,16 +501,21 @@ namespace OpenRCT2::Scripting
             auto widget = GetWidget();
             if (widget != nullptr && widget->type == WindowWidgetType::FlatBtn)
             {
-                return widget->image;
+                if (GetTargetAPIVersion() <= API_VERSION_63_G2_REORDER)
+                {
+                    return LegacyIconIndex(widget->image.GetIndex());
+                }
+                return widget->image.GetIndex();
             }
             return 0;
         }
-        void image_set(uint32_t value)
+
+        void image_set(DukValue value)
         {
             auto widget = GetWidget();
             if (widget != nullptr && widget->type == WindowWidgetType::FlatBtn)
             {
-                widget->image = value;
+                widget->image = ImageId(ImageFromDuk(value));
                 Invalidate();
             }
         }
@@ -506,6 +533,9 @@ namespace OpenRCT2::Scripting
         {
             dukglue_set_base_class<ScWidget, ScCheckBoxWidget>(ctx);
             dukglue_register_property(ctx, &ScCheckBoxWidget::isChecked_get, &ScCheckBoxWidget::isChecked_set, "isChecked");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScCheckBoxWidget, std::string, std::string>(
+                ctx, &ScCheckBoxWidget::text_get, &ScCheckBoxWidget::text_set, "text");
         }
 
     private:
@@ -578,6 +608,9 @@ namespace OpenRCT2::Scripting
             dukglue_register_property(ctx, &ScDropdownWidget::items_get, &ScDropdownWidget::items_set, "items");
             dukglue_register_property(
                 ctx, &ScDropdownWidget::selectedIndex_get, &ScDropdownWidget::selectedIndex_set, "selectedIndex");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScDropdownWidget, std::string, std::string>(
+                ctx, &ScDropdownWidget::text_get, &ScDropdownWidget::text_set, "text");
         }
 
     private:
@@ -630,7 +663,9 @@ namespace OpenRCT2::Scripting
         static void Register(duk_context* ctx)
         {
             dukglue_set_base_class<ScWidget, ScGroupBoxWidget>(ctx);
-            dukglue_register_property(ctx, &ScGroupBoxWidget::text_get, &ScGroupBoxWidget::text_set, "text");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScGroupBoxWidget, std::string, std::string>(
+                ctx, &ScGroupBoxWidget::text_get, &ScGroupBoxWidget::text_set, "text");
         }
     };
 
@@ -645,7 +680,9 @@ namespace OpenRCT2::Scripting
         static void Register(duk_context* ctx)
         {
             dukglue_set_base_class<ScWidget, ScLabelWidget>(ctx);
-            dukglue_register_property(ctx, &ScLabelWidget::text_get, &ScLabelWidget::text_set, "text");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScLabelWidget, std::string, std::string>(
+                ctx, &ScLabelWidget::text_get, &ScLabelWidget::text_set, "text");
             dukglue_register_property(ctx, &ScLabelWidget::textAlign_get, &ScLabelWidget::textAlign_set, "textAlign");
         }
 
@@ -878,7 +915,9 @@ namespace OpenRCT2::Scripting
         static void Register(duk_context* ctx)
         {
             dukglue_set_base_class<ScWidget, ScSpinnerWidget>(ctx);
-            dukglue_register_property(ctx, &ScSpinnerWidget::text_get, &ScSpinnerWidget::text_set, "text");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScSpinnerWidget, std::string, std::string>(
+                ctx, &ScSpinnerWidget::text_get, &ScSpinnerWidget::text_set, "text");
         }
     };
 
@@ -894,6 +933,9 @@ namespace OpenRCT2::Scripting
         {
             dukglue_set_base_class<ScWidget, ScTextBoxWidget>(ctx);
             dukglue_register_property(ctx, &ScTextBoxWidget::maxLength_get, &ScTextBoxWidget::maxLength_set, "maxLength");
+            // Explicit template due to text being a base method
+            dukglue_register_property<ScTextBoxWidget, std::string, std::string>(
+                ctx, &ScTextBoxWidget::text_get, &ScTextBoxWidget::text_set, "text");
         }
 
     private:
@@ -947,7 +989,7 @@ namespace OpenRCT2::Scripting
         }
     };
 
-    inline DukValue ScWidget::ToDukValue(duk_context* ctx, rct_window* w, WidgetIndex widgetIndex)
+    inline DukValue ScWidget::ToDukValue(duk_context* ctx, WindowBase* w, WidgetIndex widgetIndex)
     {
         const auto& widget = w->widgets[widgetIndex];
         auto c = w->classification;

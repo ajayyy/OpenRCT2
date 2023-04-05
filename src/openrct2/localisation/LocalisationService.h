@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -34,8 +34,8 @@ namespace OpenRCT2::Localisation
         const std::shared_ptr<IPlatformEnvironment> _env;
         int32_t _currentLanguage{};
         bool _useTrueTypeFont{};
-        std::unique_ptr<ILanguagePack> _languageFallback;
-        std::unique_ptr<ILanguagePack> _languageCurrent;
+        std::vector<int32_t> _languageOrder;
+        std::vector<std::unique_ptr<ILanguagePack>> _loadedLanguages;
         std::stack<StringId> _availableObjectStringIds;
         std::vector<std::string> _objectStrings;
 
@@ -44,6 +44,7 @@ namespace OpenRCT2::Localisation
         {
             return _currentLanguage;
         }
+        std::string_view GetCurrentLanguageLocale() const;
         bool UseTrueTypeFont() const
         {
             return _useTrueTypeFont;
@@ -65,6 +66,7 @@ namespace OpenRCT2::Localisation
         void CloseLanguages();
         StringId AllocateObjectString(const std::string& target);
         void FreeObjectString(StringId stringId);
+        const std::vector<int32_t>& GetLanguageOrder() const;
     };
 } // namespace OpenRCT2::Localisation
 

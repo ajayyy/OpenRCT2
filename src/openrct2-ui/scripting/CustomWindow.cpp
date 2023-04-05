@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -47,7 +47,7 @@ namespace OpenRCT2::Ui::Windows
         WIDX_TAB_0,
     };
 
-    static rct_widget CustomDefaultWidgets[] = {
+    static Widget CustomDefaultWidgets[] = {
         { WindowWidgetType::Frame, 0, 0, 0, 0, 0, 0xFFFFFFFF, STR_NONE },                  // panel / background
         { WindowWidgetType::Caption, 0, 1, 0, 1, 14, STR_STRING, STR_WINDOW_TITLE_TIP },   // title bar
         { WindowWidgetType::CloseBox, 0, 0, 0, 2, 13, STR_CLOSE_X, STR_CLOSE_WINDOW_TIP }, // close x button
@@ -107,10 +107,9 @@ namespace OpenRCT2::Ui::Windows
             if (result.Type == "button")
             {
                 auto dukImage = desc["image"];
-                if (dukImage.type() == DukValue::Type::NUMBER)
+                if (dukImage.type() == DukValue::Type::STRING || dukImage.type() == DukValue::Type::NUMBER)
                 {
-                    auto img = dukImage.as_uint();
-                    result.Image = ImageId::FromUInt32(img);
+                    result.Image = ImageId::FromUInt32(ImageFromDuk(dukImage));
                     result.HasBorder = false;
                 }
                 else
@@ -210,9 +209,9 @@ namespace OpenRCT2::Ui::Windows
         {
             CustomTabDesc result;
             auto dukImage = desc["image"];
-            if (dukImage.type() == DukValue::Type::NUMBER)
+            if (dukImage.type() == DukValue::Type::STRING || dukImage.type() == DukValue::Type::NUMBER)
             {
-                result.imageFrameBase = ImageId::FromUInt32(static_cast<uint32_t>(dukImage.as_int()));
+                result.imageFrameBase = ImageId::FromUInt32(ImageFromDuk(dukImage));
                 result.imageFrameCount = 0;
                 result.imageFrameDuration = 0;
             }
@@ -336,7 +335,7 @@ namespace OpenRCT2::Ui::Windows
     public:
         std::shared_ptr<Plugin> Owner;
         CustomWindowDesc Desc;
-        std::vector<rct_widget> Widgets;
+        std::vector<Widget> Widgets;
         std::vector<size_t> WidgetIndexMap;
         std::vector<CustomListView> ListViews;
 
@@ -348,7 +347,7 @@ namespace OpenRCT2::Ui::Windows
 
         CustomWindowInfo(const CustomWindowInfo&) = delete;
 
-        const CustomWidgetDesc* GetCustomWidgetDesc(rct_window* w, size_t widgetIndex) const
+        const CustomWidgetDesc* GetCustomWidgetDesc(WindowBase* w, size_t widgetIndex) const
         {
             if (widgetIndex < WidgetIndexMap.size())
             {
@@ -365,20 +364,20 @@ namespace OpenRCT2::Ui::Windows
                     auto tabWidgetIndex = widgetDescIndex - Desc.Widgets.size();
                     if (tabWidgetIndex < widgets.size())
                     {
-                        return &widgets[widgetDescIndex];
+                        return &widgets[tabWidgetIndex];
                     }
                 }
             }
             return nullptr;
         }
 
-        CustomWidgetDesc* GetCustomWidgetDesc(rct_window* w, size_t widgetIndex)
+        CustomWidgetDesc* GetCustomWidgetDesc(WindowBase* w, size_t widgetIndex)
         {
             return const_cast<CustomWidgetDesc*>(std::as_const(*this).GetCustomWidgetDesc(w, widgetIndex));
         }
     };
 
-    static CustomWindowInfo& GetInfo(rct_window* w);
+    static CustomWindowInfo& GetInfo(WindowBase* w);
     static void InvokeEventHandler(const std::shared_ptr<Plugin>& owner, const DukValue& dukHandler);
     static void InvokeEventHandler(
         const std::shared_ptr<Plugin>& owner, const DukValue& dukHandler, const std::vector<DukValue>& args);
@@ -456,7 +455,7 @@ namespace OpenRCT2::Ui::Windows
                     {
                         frame_no = 0;
                     }
-                    widget_invalidate(*this, WIDX_TAB_0 + this->page);
+                    WidgetInvalidate(*this, WIDX_TAB_0 + this->page);
                 }
             }
 
@@ -529,7 +528,7 @@ namespace OpenRCT2::Ui::Windows
             }
         }
 
-        void OnDraw(rct_drawpixelinfo& dpi) override
+        void OnDraw(DrawPixelInfo& dpi) override
         {
             WindowDrawWidgets(*this, &dpi);
             DrawTabImages(dpi);
@@ -538,12 +537,12 @@ namespace OpenRCT2::Ui::Windows
                 auto widgetIndex = GetViewportWidgetIndex();
                 if (WidgetIsVisible(*this, widgetIndex.value_or(false)))
                 {
-                    window_draw_viewport(&dpi, *this);
+                    WindowDrawViewport(&dpi, *this);
                 }
             }
         }
 
-        void OnDrawWidget(WidgetIndex widgetIndex, rct_drawpixelinfo& dpi) override
+        void OnDrawWidget(WidgetIndex widgetIndex, DrawPixelInfo& dpi) override
         {
             const auto& widget = widgets[widgetIndex];
             const auto& info = GetInfo(this);
@@ -553,8 +552,8 @@ namespace OpenRCT2::Ui::Windows
                 auto& onDraw = widgetDesc->OnDraw;
                 if (onDraw.is_function())
                 {
-                    rct_drawpixelinfo widgetDpi;
-                    if (clip_drawpixelinfo(
+                    DrawPixelInfo widgetDpi;
+                    if (ClipDrawPixelInfo(
                             &widgetDpi, &dpi, { windowPos.x + widget.left, windowPos.y + widget.top }, widget.width(),
                             widget.height()))
                     {
@@ -577,7 +576,7 @@ namespace OpenRCT2::Ui::Windows
             switch (widgetIndex)
             {
                 case WIDX_CLOSE:
-                    window_close(*this);
+                    WindowClose(*this);
                     break;
                 default:
                 {
@@ -665,7 +664,7 @@ namespace OpenRCT2::Ui::Windows
                 else if (widgetDesc->Type == "textbox")
                 {
                     auto* text = const_cast<char*>(widgetDesc->Text.c_str());
-                    window_start_textbox(*this, widgetIndex, STR_STRING, text, widgetDesc->MaxLength + 1);
+                    WindowStartTextbox(*this, widgetIndex, STR_STRING, text, widgetDesc->MaxLength + 1);
                 }
             }
         }
@@ -747,7 +746,7 @@ namespace OpenRCT2::Ui::Windows
             }
         }
 
-        void OnScrollDraw(int32_t scrollIndex, rct_drawpixelinfo& dpi) override
+        void OnScrollDraw(int32_t scrollIndex, DrawPixelInfo& dpi) override
         {
             const auto& info = GetInfo(this);
             if (scrollIndex < static_cast<int32_t>(info.ListViews.size()))
@@ -765,8 +764,8 @@ namespace OpenRCT2::Ui::Windows
             RefreshWidgets();
 
             Invalidate();
-            window_event_resize_call(this);
-            window_event_invalidate_call(this);
+            WindowEventResizeCall(this);
+            WindowEventInvalidateCall(this);
             WindowInitScrollWidgets(*this);
             Invalidate();
 
@@ -804,7 +803,7 @@ namespace OpenRCT2::Ui::Windows
                     auto wheight = viewportWidget->height() - 1;
                     if (viewport == nullptr)
                     {
-                        viewport_create(this, { left, top }, wwidth, wheight, Focus(CoordsXYZ(0, 0, 0)));
+                        ViewportCreate(this, { left, top }, wwidth, wheight, Focus(CoordsXYZ(0, 0, 0)));
                         flags |= WF_NO_SCROLLING;
                         Invalidate();
                     }
@@ -848,7 +847,7 @@ namespace OpenRCT2::Ui::Windows
             }
         }
 
-        void DrawTabImages(rct_drawpixelinfo& dpi)
+        void DrawTabImages(DrawPixelInfo& dpi)
         {
             const auto& customInfo = GetInfo(this);
             const auto& tabs = customInfo.Desc.Tabs;
@@ -867,7 +866,7 @@ namespace OpenRCT2::Ui::Windows
                         auto imageOffset = frame % tab.imageFrameCount;
                         image = image.WithIndex(image.GetIndex() + imageOffset);
                     }
-                    gfx_draw_sprite(&dpi, image, leftTop);
+                    GfxDrawSprite(&dpi, image, leftTop);
                 }
                 tabIndex++;
             }
@@ -896,14 +895,14 @@ namespace OpenRCT2::Ui::Windows
             }
             for (size_t tabDescIndex = 0; tabDescIndex < info.Desc.Tabs.size(); tabDescIndex++)
             {
-                rct_widget widget{};
+                Widget widget{};
                 widget.type = WindowWidgetType::Tab;
                 widget.colour = 1;
                 widget.left = static_cast<int16_t>(3 + (tabDescIndex * 31));
                 widget.right = widget.left + 30;
                 widget.top = 17;
                 widget.bottom = 43;
-                widget.image = IMAGE_TYPE_REMAP | SPR_TAB;
+                widget.image = ImageId(SPR_TAB, FilterPaletteID::PaletteNull);
                 widget.tooltip = STR_NONE;
                 widgetList.push_back(widget);
                 info.WidgetIndexMap.push_back(std::numeric_limits<size_t>::max());
@@ -953,9 +952,9 @@ namespace OpenRCT2::Ui::Windows
             UpdateViewport();
         }
 
-        static void CreateWidget(std::vector<rct_widget>& widgetList, const CustomWidgetDesc& desc)
+        static void CreateWidget(std::vector<Widget>& widgetList, const CustomWidgetDesc& desc)
         {
-            rct_widget widget{};
+            Widget widget{};
             widget.colour = 1;
             widget.left = desc.X;
             widget.top = desc.Y;
@@ -963,11 +962,8 @@ namespace OpenRCT2::Ui::Windows
             widget.bottom = desc.Y + desc.Height - 1;
             widget.content = std::numeric_limits<uint32_t>::max();
             widget.tooltip = STR_NONE;
-            if (!desc.Tooltip.empty())
-            {
-                widget.sztooltip = const_cast<utf8*>(desc.Tooltip.c_str());
-                widget.flags |= WIDGET_FLAGS::TOOLTIP_IS_STRING;
-            }
+            widget.sztooltip = const_cast<utf8*>(desc.Tooltip.c_str());
+            widget.flags |= WIDGET_FLAGS::TOOLTIP_IS_STRING;
             if (desc.IsDisabled)
                 widget.flags |= WIDGET_FLAGS::IS_DISABLED;
             if (!desc.IsVisible)
@@ -978,7 +974,7 @@ namespace OpenRCT2::Ui::Windows
                 if (desc.Image.HasValue())
                 {
                     widget.type = desc.HasBorder ? WindowWidgetType::ImgBtn : WindowWidgetType::FlatBtn;
-                    widget.image = desc.Image.ToUInt32();
+                    widget.image = desc.Image;
                 }
                 else
                 {
@@ -1118,7 +1114,7 @@ namespace OpenRCT2::Ui::Windows
         static rct_windownumber GetNewWindowNumber()
         {
             auto result = _nextWindowNumber++;
-            while (window_find_by_number(WindowClass::Custom, result) != nullptr)
+            while (WindowFindByNumber(WindowClass::Custom, result) != nullptr)
             {
                 result++;
             }
@@ -1128,7 +1124,7 @@ namespace OpenRCT2::Ui::Windows
 
     rct_windownumber CustomWindow::_nextWindowNumber;
 
-    rct_window* window_custom_open(std::shared_ptr<Plugin> owner, DukValue dukDesc)
+    WindowBase* WindowCustomOpen(std::shared_ptr<Plugin> owner, DukValue dukDesc)
     {
         auto desc = CustomWindowDesc::FromDukValue(dukDesc);
         uint16_t windowFlags = WF_RESIZABLE | WF_TRANSPARENT;
@@ -1149,7 +1145,7 @@ namespace OpenRCT2::Ui::Windows
         return window;
     }
 
-    static CustomWindowInfo& GetInfo(rct_window* w)
+    static CustomWindowInfo& GetInfo(WindowBase* w)
     {
         return *(static_cast<CustomWindowInfo*>(w->custom_info));
     }
@@ -1167,7 +1163,7 @@ namespace OpenRCT2::Ui::Windows
         scriptEngine.ExecutePluginCall(owner, dukHandler, args, false);
     }
 
-    std::string GetWindowTitle(rct_window* w)
+    std::string GetWindowTitle(WindowBase* w)
     {
         if (w->custom_info != nullptr)
         {
@@ -1177,7 +1173,7 @@ namespace OpenRCT2::Ui::Windows
         return {};
     }
 
-    void UpdateWindowTitle(rct_window* w, std::string_view value)
+    void UpdateWindowTitle(WindowBase* w, std::string_view value)
     {
         if (w->custom_info != nullptr)
         {
@@ -1186,7 +1182,7 @@ namespace OpenRCT2::Ui::Windows
         }
     }
 
-    void UpdateWindowTab(rct_window* w, int32_t tabIndex)
+    void UpdateWindowTab(WindowBase* w, int32_t tabIndex)
     {
         if (w->classification == WindowClass::Custom && w->custom_info != nullptr)
         {
@@ -1198,7 +1194,7 @@ namespace OpenRCT2::Ui::Windows
         }
     }
 
-    void UpdateWidgetText(rct_window* w, WidgetIndex widgetIndex, std::string_view value)
+    void UpdateWidgetText(WindowBase* w, WidgetIndex widgetIndex, std::string_view value)
     {
         if (w->custom_info != nullptr)
         {
@@ -1208,12 +1204,12 @@ namespace OpenRCT2::Ui::Windows
             {
                 customWidgetInfo->Text = value;
                 w->widgets[widgetIndex].string = customWidgetInfo->Text.data();
-                widget_invalidate(*w, widgetIndex);
+                WidgetInvalidate(*w, widgetIndex);
             }
         }
     }
 
-    void UpdateWidgetItems(rct_window* w, WidgetIndex widgetIndex, const std::vector<std::string>& items)
+    void UpdateWidgetItems(WindowBase* w, WidgetIndex widgetIndex, const std::vector<std::string>& items)
     {
         if (w->custom_info != nullptr)
         {
@@ -1227,7 +1223,7 @@ namespace OpenRCT2::Ui::Windows
         }
     }
 
-    void UpdateWidgetColour(rct_window* w, WidgetIndex widgetIndex, colour_t colour)
+    void UpdateWidgetColour(WindowBase* w, WidgetIndex widgetIndex, colour_t colour)
     {
         if (w->custom_info != nullptr)
         {
@@ -1242,7 +1238,7 @@ namespace OpenRCT2::Ui::Windows
                 {
                     customWidgetInfo->Colour = colour;
                     widget.image = GetColourButtonImage(colour);
-                    widget_invalidate(*w, widgetIndex);
+                    WidgetInvalidate(*w, widgetIndex);
 
                     std::vector<DukValue> args;
                     auto ctx = customWidgetInfo->OnChange.context();
@@ -1254,7 +1250,7 @@ namespace OpenRCT2::Ui::Windows
         }
     }
 
-    void UpdateWidgetSelectedIndex(rct_window* w, WidgetIndex widgetIndex, int32_t selectedIndex)
+    void UpdateWidgetSelectedIndex(WindowBase* w, WidgetIndex widgetIndex, int32_t selectedIndex)
     {
         if (w->custom_info != nullptr)
         {
@@ -1287,7 +1283,7 @@ namespace OpenRCT2::Ui::Windows
                 }
                 customWidgetInfo->SelectedIndex = selectedIndex;
 
-                widget_invalidate(*w, widgetIndex);
+                WidgetInvalidate(*w, widgetIndex);
 
                 if (lastSelectedIndex != selectedIndex)
                 {
@@ -1301,7 +1297,7 @@ namespace OpenRCT2::Ui::Windows
         }
     }
 
-    std::vector<std::string> GetWidgetItems(rct_window* w, WidgetIndex widgetIndex)
+    std::vector<std::string> GetWidgetItems(WindowBase* w, WidgetIndex widgetIndex)
     {
         if (w->custom_info != nullptr)
         {
@@ -1315,7 +1311,7 @@ namespace OpenRCT2::Ui::Windows
         return {};
     }
 
-    colour_t GetWidgetColour(rct_window* w, WidgetIndex widgetIndex)
+    colour_t GetWidgetColour(WindowBase* w, WidgetIndex widgetIndex)
     {
         if (w->custom_info != nullptr)
         {
@@ -1329,7 +1325,7 @@ namespace OpenRCT2::Ui::Windows
         return COLOUR_BLACK;
     }
 
-    int32_t GetWidgetSelectedIndex(rct_window* w, WidgetIndex widgetIndex)
+    int32_t GetWidgetSelectedIndex(WindowBase* w, WidgetIndex widgetIndex)
     {
         if (w->custom_info != nullptr)
         {
@@ -1343,7 +1339,7 @@ namespace OpenRCT2::Ui::Windows
         return -1;
     }
 
-    rct_window* FindCustomWindowByClassification(std::string_view classification)
+    WindowBase* FindCustomWindowByClassification(std::string_view classification)
     {
         for (const auto& w : g_window_list)
         {
@@ -1359,7 +1355,7 @@ namespace OpenRCT2::Ui::Windows
         return nullptr;
     }
 
-    std::optional<WidgetIndex> FindWidgetIndexByName(rct_window* w, std::string_view name)
+    std::optional<WidgetIndex> FindWidgetIndexByName(WindowBase* w, std::string_view name)
     {
         if (w->custom_info != nullptr)
         {
@@ -1379,7 +1375,7 @@ namespace OpenRCT2::Ui::Windows
         return std::nullopt;
     }
 
-    std::string GetWidgetName(rct_window* w, WidgetIndex widgetIndex)
+    std::string GetWidgetName(WindowBase* w, WidgetIndex widgetIndex)
     {
         if (w->custom_info != nullptr)
         {
@@ -1393,7 +1389,7 @@ namespace OpenRCT2::Ui::Windows
         return {};
     }
 
-    void SetWidgetName(rct_window* w, WidgetIndex widgetIndex, std::string_view name)
+    void SetWidgetName(WindowBase* w, WidgetIndex widgetIndex, std::string_view name)
     {
         if (w->custom_info != nullptr)
         {
@@ -1406,12 +1402,39 @@ namespace OpenRCT2::Ui::Windows
         }
     }
 
-    CustomListView* GetCustomListView(rct_window* w, WidgetIndex widgetIndex)
+    std::string GetWidgetTooltip(WindowBase* w, WidgetIndex widgetIndex)
+    {
+        if (w->custom_info != nullptr)
+        {
+            const auto& customInfo = GetInfo(w);
+            auto customWidgetInfo = customInfo.GetCustomWidgetDesc(w, widgetIndex);
+            if (customWidgetInfo != nullptr)
+            {
+                return customWidgetInfo->Tooltip;
+            }
+        }
+        return {};
+    }
+
+    void SetWidgetTooltip(WindowBase* w, WidgetIndex widgetIndex, std::string_view tooltip)
+    {
+        if (w->custom_info != nullptr)
+        {
+            auto& customInfo = GetInfo(w);
+            auto customWidgetInfo = customInfo.GetCustomWidgetDesc(w, widgetIndex);
+            if (customWidgetInfo != nullptr)
+            {
+                customWidgetInfo->Tooltip = std::string(tooltip);
+            }
+        }
+    }
+
+    CustomListView* GetCustomListView(WindowBase* w, WidgetIndex widgetIndex)
     {
         if (w->custom_info != nullptr)
         {
             auto& info = GetInfo(w);
-            auto scrollIndex = window_get_scroll_data_index(*w, widgetIndex);
+            auto scrollIndex = WindowGetScrollDataIndex(*w, widgetIndex);
             if (scrollIndex < static_cast<int32_t>(info.ListViews.size()))
             {
                 return &info.ListViews[scrollIndex];
@@ -1420,7 +1443,7 @@ namespace OpenRCT2::Ui::Windows
         return nullptr;
     }
 
-    int32_t GetWidgetMaxLength(rct_window* w, WidgetIndex widgetIndex)
+    int32_t GetWidgetMaxLength(WindowBase* w, WidgetIndex widgetIndex)
     {
         if (w->custom_info != nullptr)
         {
@@ -1434,7 +1457,7 @@ namespace OpenRCT2::Ui::Windows
         return 0;
     }
 
-    void SetWidgetMaxLength(rct_window* w, WidgetIndex widgetIndex, int32_t value)
+    void SetWidgetMaxLength(WindowBase* w, WidgetIndex widgetIndex, int32_t value)
     {
         if (w->custom_info != nullptr)
         {
@@ -1450,7 +1473,7 @@ namespace OpenRCT2::Ui::Windows
     void CloseWindowsOwnedByPlugin(std::shared_ptr<Plugin> plugin)
     {
         // Get all the windows that need closing
-        std::vector<std::shared_ptr<rct_window>> customWindows;
+        std::vector<std::shared_ptr<WindowBase>> customWindows;
         for (const auto& window : g_window_list)
         {
             if (window->classification == WindowClass::Custom)
@@ -1466,7 +1489,7 @@ namespace OpenRCT2::Ui::Windows
 
         for (auto& window : customWindows)
         {
-            window_close(*window.get());
+            WindowClose(*window.get());
         }
     }
 

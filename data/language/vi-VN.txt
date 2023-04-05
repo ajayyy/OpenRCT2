@@ -1241,7 +1241,7 @@ STR_1863    :Handyman
 STR_1864    :Mechanic
 STR_1865    :Security Guard
 STR_1866    :Entertainer
-STR_1867    :{BLACK}{COMMA16} {STRINGID}
+STR_1867    :{BLACK}{COMMA32} {STRINGID}
 STR_1868    :Can’t change number of rotations…
 STR_1869    :{WINDOW_COLOUR_2}Number of rotations:
 STR_1870    :Number of complete rotations
@@ -1672,7 +1672,7 @@ STR_2314    :{WINDOW_COLOUR_2}Độ dài: {BLACK}{STRINGID}
 STR_2315    :{WINDOW_COLOUR_2}Tốn: {BLACK}around {CURRENCY}
 STR_2316    :{WINDOW_COLOUR_2}Diện tích: {BLACK}{COMMA16} x {COMMA16} blocks
 STR_2321    :{WINDOW_COLOUR_2}Number of rides/attractions: {BLACK}{COMMA16}
-STR_2322    :{WINDOW_COLOUR_2}Nhân viên: {BLACK}{COMMA16}
+STR_2322    :{WINDOW_COLOUR_2}Nhân viên: {BLACK}{COMMA32}
 STR_2323    :{WINDOW_COLOUR_2}Park size: {BLACK}{COMMA32}m²
 STR_2324    :{WINDOW_COLOUR_2}Park size: {BLACK}{COMMA32}sq.ft.
 STR_2325    :Buy land to extend park
@@ -2648,7 +2648,6 @@ STR_5375    :▲
 STR_5376    :▼
 STR_5404    :Name already exists
 STR_5440    :Minimise fullscreen on focus loss
-STR_5441    :Identifies rides by track type{NEWLINE}so vehicles can be changed{NEWLINE}afterwards (RCT1 behaviour)
 STR_5442    :Force park rating:
 STR_5447    :Type {STRINGID}
 STR_5448    :Ride / Vehicle {STRINGID}
@@ -2708,8 +2707,6 @@ STR_5503    :Enter hostname or IP address:
 STR_5504    :Show multiplayer status
 STR_5505    :Unable to connect to server.
 STR_5506    :Guests ignore intensities
-STR_5508    :Allow loading files with incorrect checksums
-STR_5509    :Allows loading scenarios and saves{NEWLINE}that have an incorrect checksum,{NEWLINE}like the scenarios from the demo{NEWLINE}or damaged saves.
 STR_5510    :Default sound device
 STR_5511    :(UNKNOWN)
 STR_5512    :Save Game As
@@ -3302,7 +3299,6 @@ STR_6154    :For security reasons, it is not recommended to run OpenRCT2 with el
 STR_6155    :Neither KDialog nor Zenity are installed. Please install one, or configure from the command line.
 STR_6156    :Name is reserved
 STR_6157    :Console
-STR_6158    :Failed to load this file…{NEWLINE}Incompatible RCTC version: {COMMA16}
 STR_6160    :{WINDOW_COLOUR_2}Available vehicles: {BLACK}{STRING}
 STR_6161    :Gridlines display toggle
 STR_6162    :Spinning Wild Mouse
@@ -3989,45 +3985,6 @@ STR_DTLS    :
 ## Start OpenRCT2 Official
 [TTPIRF05]
 STR_NAME    :Roof
-
-[TTRFWD01]
-STR_NAME    :Roof
-
-[TTRFWD02]
-STR_NAME    :Roof
-
-[TTRFWD03]
-STR_NAME    :Roof
-
-[TTRFWD04]
-STR_NAME    :Roof
-
-[TTRFWD05]
-STR_NAME    :Roof
-
-[TTRFWD06]
-STR_NAME    :Roof
-
-[TTRFWD07]
-STR_NAME    :Roof
-
-[TTRFWD08]
-STR_NAME    :Roof
-
-[TTRFGL01]
-STR_NAME    :Glass Roof
-
-[TTRFGL02]
-STR_NAME    :Glass Roof
-
-[TTRFGL03]
-STR_NAME    :Glass Roof
-
-[ACWW33]
-STR_NAME    :Wooden Post Wall
-
-[ACWWF32]
-STR_NAME    :Wooden Post Wall
 
 ## End OpenRCT2 Official
 

@@ -96,6 +96,8 @@ STR_0091    :رحلة غير معروفة (59)
 STR_0092    :LIM أفعوانية مُطلقة بواسطة
 STR_0093    :أفعوانية هجينة
 STR_0094    :أفعوانية سكة حديدية مفردة
+STR_0095    :أفعوانية جبال الألب
+STR_0096    :أفعوانية خشبية كلاسيكية
 STR_0512    :أفعوانية دوارة مدمجة مع مرتفع حلزوني و إنخفاضات ملتفة ناعمة.
 STR_0513    :أفعوانية دوارة للأعلي حيث يبقي الركاب في مسار أفقي.
 STR_0514    :تتحرك القطارات المعلقة أسفل مسار الإفعوانية الدوارة إلى الجانب وحول الزوايا
@@ -177,6 +179,8 @@ STR_0600    :Powered mine trains career along a smooth and twisted track layout
 STR_0602    :Roller coaster trains are accelerated out of the station by linear induction motors to speed through twisting inversions
 STR_0603    :أفعوانية خشبية مع مسار فولاذي، تسمح بإنحدارت وإنعكاسات حادة.
 STR_0604    :يركب الراكبون سيارة صغيرة على مسار أحادي ضيق، حيث يتسابقون عبر طرق مُنعكسة وملفات حادة.
+STR_0605    :يتزلق الراكبون على مسار فولاذي متعرج، مع إستخدام المكابح للتحكم في السرعة
+STR_0606    :أفعوانية خشبية قديمة الطراز تتميز بركوب سريع ووعر، مع الكثير من التعلق بالهواء، وقوة تسارع جانبية قوية مصممة لتشعر الراكب بإنه "خارج عن السيطرة"
 STR_0767    :زائر {INT32}
 STR_0768    :رجل مساعد {INT32}
 STR_0769    :ميكانيكي {INT32}
@@ -751,7 +755,7 @@ STR_1363    :Too high for supports!
 STR_1364    :Supports for track above can’t be extended any further!
 STR_1365    :In-line Twist (left)
 STR_1366    :In-line Twist (right)
-STR_1367    :Half Loop
+STR_1367    :نصف حلقة صغيرة
 STR_1368    :Half Corkscrew (left)
 STR_1369    :Half Corkscrew (right)
 STR_1370    :Barrel Roll (left)
@@ -1242,7 +1246,7 @@ STR_1863    :رجل مُساعد
 STR_1864    :ميكانيكي
 STR_1865    :رجل الأمن
 STR_1866    :مُرفه
-STR_1867    :{BLACK}{COMMA16} {STRINGID}
+STR_1867    :{BLACK}{COMMA32} {STRINGID}
 STR_1868    :Can’t change number of rotations…
 STR_1869    :{WINDOW_COLOUR_2}Number of rotations:
 STR_1870    :Number of complete rotations
@@ -1674,7 +1678,7 @@ STR_2314    :{WINDOW_COLOUR_2}Ride length: {BLACK}{STRINGID}
 STR_2315    :{WINDOW_COLOUR_2}Cost: {BLACK}around {CURRENCY}
 STR_2316    :{WINDOW_COLOUR_2}Space required: {BLACK}{COMMA16} × {COMMA16} blocks
 STR_2321    :{WINDOW_COLOUR_2}Number of rides/attractions: {BLACK}{COMMA16}
-STR_2322    :{WINDOW_COLOUR_2}Staff: {BLACK}{COMMA16}
+STR_2322    :{WINDOW_COLOUR_2}Staff: {BLACK}{COMMA32}
 STR_2323    :{WINDOW_COLOUR_2}Park size: {BLACK}{COMMA32}m²
 STR_2324    :{WINDOW_COLOUR_2}Park size: {BLACK}{COMMA32}sq.ft.
 STR_2325    :Buy land to extend park
@@ -2651,7 +2655,6 @@ STR_5375    :▲
 STR_5376    :▼
 STR_5404    :الأسم موجود بالفعل
 STR_5440    :Minimise fullscreen on focus loss
-STR_5441    :Identifies rides by track type{NEWLINE}so vehicles can be changed{NEWLINE}afterwards (RCT1 behaviour)
 STR_5442    :Force park rating:
 STR_5447    :النوع {STRINGID}
 STR_5448    :رحلة / مركبة {STRINGID}
@@ -2711,8 +2714,6 @@ STR_5503    :Enter hostname or IP address:
 STR_5504    :Show multiplayer status
 STR_5505    :Unable to connect to server.
 STR_5506    :Guests ignore intensities
-STR_5508    :Allow loading files with incorrect checksums
-STR_5509    :Allows loading scenarios and saves{NEWLINE}that have an incorrect checksum,{NEWLINE}like the scenarios from the demo{NEWLINE}or damaged saves.
 STR_5510    :جهاز الصوت الإفتراضي
 STR_5511    :(غير معروف)
 STR_5512    :حفظ اللعبة كـ
@@ -2996,7 +2997,7 @@ STR_5832    :Show height as generic units instead of measurement format set unde
 STR_5833    :Changes what date format is used
 STR_5834    :Select which audio device OpenRCT2 will use
 STR_5835    :Mute the game if the window loses focus
-STR_5836    :Select music to use on the main menu.{NEWLINE}Selecting RCT1 theme requires that you copy ‘data/css17.dat’ from your RCT1 game folder to ‘data/css50.dat’ in your RCT2 folder, or set the path to RCT1 in the Miscellaneous tab.
+STR_5836    :حدد الموسيقى المستخدمة في القائمة الرئيسية.{NEWLINE}يتطلب تحديد سمة محاكي الافعوانيات 1 تعيين المسار إلى محاكي الافعوانيات 1 في تبويب الخيارات المتقدمة.
 STR_5837    :Create and manage custom UI themes
 STR_5838    :Show a separate button for the finance window in the toolbar
 STR_5839    :Show a separate button for the research and development window in the toolbar
@@ -3305,7 +3306,6 @@ STR_6154    :لا يٌفضل تشغيل اللعبة مع هذه الأذون ا
 STR_6155    :ليس هناك KDialog أو Zenity مثبت. الرجاء تثبيت إحداهما، أو إعداده من سطر الأوامر.
 STR_6156    :الأسم محجوز
 STR_6157    :وحدة التحكم
-STR_6158    :فشل في تحميل هذا الملف…{NEWLINE}نسخة الملف غير متوافقة: {COMMA16}
 STR_6160    :{WINDOW_COLOUR_2}المركبات المتوفرة: {BLACK}{STRING}
 STR_6161    :إظهار/إخفاء شبكة الإرشاد
 STR_6162    :الفأر البري الدوار
@@ -3425,7 +3425,7 @@ STR_6318    :{STRING} :ملف السجل {NEWLINE}.تم إكتشاف إنفصا�
 STR_6319    :مكابح البلوك مغلقة
 STR_6320    :غير قابل للتدمير
 STR_6321    :الإضافة متضررة
-STR_6322    :{WINDOW_COLOUR_2} {BLACK}{INT32} :رقم النقش المتحرك
+STR_6322    :{WINDOW_COLOUR_2} {BLACK}{INT32} :معرف العنصر
 STR_6323    :يُحاكي
 STR_6324    :حاكي
 STR_6325    :حاكي الرحلة/المزار
@@ -3588,8 +3588,8 @@ STR_6482    :إعدادات الاخفاء
 STR_6483    :إفتح إعدادات الإخفاء
 STR_6484    :مفتاح شاهد من خلال الغطاء النباتي 
 STR_6485    :مفتاح شاهد من خلال السيارات
-STR_6486    :مفتاح شاهد من خلال الضيوف
-STR_6487    :مفتاح شاهد من خلال العاملون
+STR_6486    :تفعيل شاهد من خلال الضيوف
+STR_6487    :تفعيل شاهد من خلال العاملون
 STR_6488    :{RED}يشكو الضيوف من طوابير الإنتظار الطويلة بحديقتك.{NEWLINE}قلل الطوابير الطويلة المسببة للمشكلة، أو زد عدد الرحلات.
 STR_6489    :خطأ: نسخة حديقة غير مدعومة
 STR_6490    :تحذير: نسخة حديقة شبه مدعومة
@@ -3600,6 +3600,35 @@ STR_6494    :تجميع حسب نوع الرحلة
 STR_6495    :مجموعة الرحلات حسب نوع الرحلة بدلاً من عرض كل مركبة على حدة.
 STR_6496    :{WINDOW_COLOUR_2}{STRINGID}
 STR_6497    :اظغط علي البلاط لعرض عناصره.{NEWLINE}Ctrl + ظغطة لتحديد عنصر البلاط تحديداً.
+STR_6498    :غير قادر على إبقاء شكل الخريطة بهيئة مربع.
+STR_6499    :نوع السيارة غير مدعوم بتنسيق تصميم المسار
+STR_6500    :عناصر المسار غير مدعومة بتنسيق تصميم المسار
+STR_6501    :لون عشوائي
+STR_6502    :أدخل قيمة بين {COMMA16} و {COMMA16}
+STR_6503    :حدد على الأقل عنصر محطة واحد
+STR_6504    :حدد على الأقل عنصر تربة واحد
+STR_6505    :حدد على الأقل حد عنصر تربة واحد
+STR_6506    :نصف لولبي كبير (شمال)
+STR_6507    :نصف لولبي كبير (يمين)
+STR_6508    :نصف حلقة متوسطة (شمال)
+STR_6509    :نصف حلقة متوسطة (يمين)
+STR_6510    :لفة انعدامية الوزن (شمال)
+STR_6511    :لفة انعدامية الوزن (يمين)
+STR_6512    :لفة كبيرة انعدامية الوزن (شمال)
+STR_6513    :لفة كبيرة انعدامية الوزن (يمين)
+STR_6514    :ارتفاع غير صحيح!
+STR_6520    :حزمة الملفات
+STR_6521    :أولوية منخفضة
+STR_6522    :أولوية مرتفعة
+STR_6523    :تقليل أولوية حزمة الملفات المحددة.
+STR_6524    :زيادة أولوية حزمة الملفات المحددة.
+STR_6525    :أعد تحميل جميع الملفات في اللعبة بحزم الملفات الممكّنة.
+STR_6526    :(الرسوميات القياسية، الموسيقي والمؤثرات الصوتية)
+STR_6528    :معاملات مسار غير صحيحة!
+STR_6529    :معلمة نظام الألوان غير صحيح!
+STR_6530    :حزمة توسوعية منشئة بالمستخدم
+STR_6531    :آلة السفر عبر الزمن
+STR_6532    :عالم أحلام كاتي
 
 #############
 # Scenarios #
@@ -3624,12 +3653,12 @@ STR_DTLS    :إبدء من لاشئ، إبني حديقة مزدهرة حول ب
 <Diamond Heights>
 STR_SCNR    :المرتفعات الألماسية
 STR_PARK    :المرتفعات الألماسية
-STR_DTLS    :Diamond Heights is already a successful theme park with great rides - develop it to double its value
+STR_DTLS    :المرتفعات الألماسية هي بالفعل حديقة ترفيهية ناجحة مع رحلات رائعة - قم بتطويرها لمضاعفة قيمتها
 
 <Evergreen Gardens>
 STR_SCNR    :الحدائق الخضراء دائماً
 STR_PARK    :الحدائق الخضراء دائماً
-STR_DTLS    :Convert the beautiful Evergreen Gardens into a thriving theme park
+STR_DTLS    :حول الحدائق الخضراء دائماً إلى مدينة ترفيهية مزدهرة
 
 <Bumbly Beach>
 STR_SCNR    :Bumbly Beach
@@ -3674,12 +3703,12 @@ STR_DTLS    :This theme park has some well-designed modern rides, but plenty of 
 <Mystic Mountain>
 STR_SCNR    :الجبل السحري
 STR_PARK    :الجبل السحري
-STR_DTLS    :In the hilly forests of Mystic Mountain, build a theme park from scratch
+STR_DTLS    :في غابات الجبل السحري، قم ببناء مدينة ملاهي من الصفر
 
 <Pacific Pyramids>
 STR_SCNR    :أهرامات المحيط الهادئ
 STR_PARK    :أهرامات المحيط الهادئ
-STR_DTLS    :Convert the Egyptian Ruins tourist attraction into a thriving theme park
+STR_DTLS    :تحويل المعالم السياحية المصرية الأثرية إلى مدينة ترفيهية مزدهرة
 
 <Crumbly Woods>
 STR_SCNR    :Crumbly Woods
@@ -3694,7 +3723,7 @@ STR_DTLS    :Convert this sleepy town’s pier into a thriving attraction
 <Lightning Peaks>
 STR_SCNR    :قمم الضوء
 STR_PARK    :قمم الضوء
-STR_DTLS    :The beautiful mountains of Lightning Peaks are popular with walkers and sightseers - Use the available land to attract a new thrill-seeking clientele
+STR_DTLS    :تحظى جبال "قمم الضوء" الجميلة بشعبية كبيرة بين المشاة والمتنزهين - استخدم الأرض المتاحة لجذب زوار جدد يبحثون عن الإثارة
 
 <Ivory Towers>
 STR_SCNR    :Ivory Towers
@@ -3704,12 +3733,12 @@ STR_DTLS    :A well-established park, which has a few problems
 <Rainbow Valley>
 STR_SCNR    :وادي قوس القزح
 STR_PARK    :وادي قوس القزح
-STR_DTLS    :Rainbow Valley’s local authority won’t allow any landscape changes or large tree removal, but you must develop the area into a large theme park
+STR_DTLS    :لن تسمح السلطة المحلية في "وادي قوس القزح" بأي تغييرات في المناظر الطبيعية أو إزالة الأشجار الكبيرة، ولكن يجب عليك تطوير المنطقة لتصبح حديقة ملاهي كبيرة
 
 <Thunder Rock>
 STR_SCNR    :صخرة الرعد
 STR_PARK    :صخرة الرعد
-STR_DTLS    :Thunder Rock stands in the middle of a desert and attracts many tourists - Use the available space to build rides to attract more people
+STR_DTLS    :تقف "صخرة الرعد" في وسط الصحراء وتجذب العديد من السياح - استخدم المساحة المتاحة لبناء رحلات ركوب لجذب المزيد من الزوار
 
 <Mega Park>
 STR_SCNR    :الحديقة العملاقة
@@ -3725,7 +3754,7 @@ STR_DTLS    :Develop the seaside cliffs into a thriving amusement park
 <Three Monkeys Park>
 STR_SCNR    :حديقة القرود الثلاثة
 STR_PARK    :حديقة القرود الثلاثة
-STR_DTLS    :Central to this large developing park is a giant triple-track racing/duelling steel coaster
+STR_DTLS    :في قلب هذه الحديقة النامية الكبيرة توجد سفينة فولاذية عملاقة ثلاثية الحلقات للسباقات أو المبارزات
 
 <Canary Mines>
 STR_SCNR    :Canary Mines
@@ -3740,12 +3769,12 @@ STR_DTLS    :An old redundant bridge is yours to develop into an amusement park
 <Funtopia>
 STR_SCNR    :فينتوبيا
 STR_PARK    :فينتوبيا
-STR_DTLS    :Covering land both sides of a highway, this park has several rides already operating
+STR_DTLS    :تغطي هذه الحديقة جانبي الطريق السريع، ولديها العديد من الرحلات التي تعمل بالفعل
 
 <Haunted Harbour>
 STR_SCNR    :الميناء المسكون
 STR_PARK    :الميناء المسكون
-STR_DTLS    :The local authority has agreed to sell nearby land cheaply to this small seaside park, on the condition that certain rides are preserved
+STR_DTLS    :وافقت السلطة المحلية على بيع الأراضي المجاورة بسعر رخيص لهذه الحديقة الساحلية الصغيرة، بشرط الحفاظ على بعض الرحلات.
 
 <Fun Fortress>
 STR_SCNR    :قلعة المرح
@@ -3780,12 +3809,12 @@ STR_DTLS    :This elderly park has many historical rides but is badly in debt
 <Magic Quarters>
 STR_SCNR    :مقر السحر الرئيسي
 STR_PARK    :مقر السحر الرئيسي
-STR_DTLS    :A large area of land has been cleared and partially themed ready for you to develop into a landscaped theme park
+STR_DTLS    :تم تنظيف مساحة كبيرة من الأرض وأصبحت جاهزة جُزئيًا لتحويلها إلى مدينة ملاهي ذات مناظر طبيعية
 
 <Fruit Farm>
 STR_SCNR    :مزرعة الفواكه
 STR_PARK    :مزرعة الفواكه
-STR_DTLS    :A thriving fruit farm has built a railroad to boost its income, your job is to develop it into a full-blown amusement park
+STR_DTLS    :قامت مزرعة فواكه مزدهرة ببناء خط سكة حديد لزيادة ربحها، وظيفتك هي تطويرها إلى مدينة ملاهي كاملة
 
 <Butterfly Dam>
 STR_SCNR    :سد الفراشات
@@ -3800,7 +3829,7 @@ STR_DTLS    :وادي كبير متوفر لك لكي تطورة إلي حديق
 <Thunderstorm Park>
 STR_SCNR    :حديقة العاصفة البرقية
 STR_PARK    :حديقة العاصفة البرقية
-STR_DTLS    :The weather is so wet here that a giant pyramid has been built to allow some rides to be built under cover
+STR_DTLS    :الجو رطب للغاية هنا لدرجة أنه تم بناء هرم عملاق للسماح ببناء بعض الألعاب تحته
 
 <Harmonic Hills>
 STR_SCNR    :السهول المتناغمة
@@ -3850,12 +3879,12 @@ STR_DTLS    :A four lane steeplechase ride is the centrepiece of this expanding 
 <Mineral Park>
 STR_SCNR    :حديقة المعادن
 STR_PARK    :حديقة المعادن
-STR_DTLS    :Turn this abandoned stone quarry into a place to attract thrill-seeking tourists
+STR_DTLS    :حوّل هذا المحجر المهجور إلى مكان يجذب السياح الباحثين عن الإثارة
 
 <Coaster Crazy>
 STR_SCNR    :جنون الأفعوانيات
 STR_PARK    :جنون الأفعوانيات
-STR_DTLS    :You have limited funds but unlimited time to turn this mountainside area into a vast roller coaster park
+STR_DTLS    :لديك أموال محدودة ولكن لديك وقت غير محدود لتحويل هذه المنطقة الجبلية إلى حديقة أفعوانيات شاسعة
 
 <Urban Park>
 STR_SCNR    :الحديقة الحضرية
@@ -3952,7 +3981,7 @@ STR_DTLS    :هذا المنتزه الترفيهي يحتوي على العدي
 <Frightmare Hills>
 STR_SCNR    :سهول الرعب
 STR_PARK    :سهول الرعب
-STR_DTLS    :حديقة مرعبة مع أفعوانية المركزية العملاقة
+STR_DTLS    :حديقة مرعبة مع الأفعوانية المركزية العملاقة
 
 <Thunder Rocks>
 STR_SCNR    :صخور الرعد
@@ -4022,8 +4051,8 @@ STR_DTLS    :حاول أن تبني أصغر حديقة ملاهي ربحية
 ## Real Parks from RCT1
 # None of them had details
 <Alton Towers>
-STR_SCNR    :ألتون تاورز
-STR_PARK    :ألتون تاورز
+STR_SCNR    :أبراج ألتون
+STR_PARK    :أبراج ألتون
 STR_DTLS    :
 
 <Heide-Park>
@@ -4039,9 +4068,11 @@ STR_DTLS    :
 ## Misc parks from RCT1
 # Had no details
 <Fort Anachronism>
-STR_SCNR    :حصن مفارقة تاريخية
-STR_PARK    :حصن مفارقة تاريخية
+STR_SCNR    :حصن المفارقة تاريخية
+STR_PARK    :حصن المفارقة تاريخية
 STR_DTLS    :
+
+
 
 ###########
 # Scenery #
@@ -4051,118 +4082,79 @@ STR_DTLS    :
 [TTPIRF05]
 STR_NAME    :سقف
 
-[TTRFWD01]
-STR_NAME    :سقف
-
-[TTRFWD02]
-STR_NAME    :سقف
-
-[TTRFWD03]
-STR_NAME    :سقف
-
-[TTRFWD04]
-STR_NAME    :سقف
-
-[TTRFWD05]
-STR_NAME    :سقف
-
-[TTRFWD06]
-STR_NAME    :سقف
-
-[TTRFWD07]
-STR_NAME    :سقف
-
-[TTRFWD08]
-STR_NAME    :سقف
-
-[TTRFGL01]
-STR_NAME    :سقف زجاجي
-
-[TTRFGL02]
-STR_NAME    :سقف زجاجي
-
-[TTRFGL03]
-STR_NAME    :سقف زجاجي
-
-[ACWW33]
-STR_NAME    :Wooden Post Wall
-
-[ACWWF32]
-STR_NAME    :Wooden Post Wall
-
 ## End OpenRCT2 Official
 
 ###############################################################################
 ## RCT2 Scenarios
 ###############################################################################
 <Alpine Adventures>
-STR_SCNR    :Alpine Adventures
-STR_PARK    :Alpine Adventures
-STR_DTLS    :Convert a small mountain ski resort into a snow-themed amusement park
+STR_SCNR    :مغامرات جبال الألب
+STR_PARK    :مغامرات جبال الألب
+STR_DTLS    :قم بتحويل منتجع تزلج جبلي صغير إلى متنزه ترفيهي ذا طابع ثلجي
 
 <Amity Airfield>
-STR_SCNR    :Amity Airfield
-STR_PARK    :Amity Airfield
-STR_DTLS    :Build a flying-themed amusement park in this abandoned airport
+STR_SCNR    :مطار أميتي
+STR_PARK    :مطار أميتي
+STR_DTLS    :قم ببناء متنزه ترفيهي ذا طابع الطيران بهذا المطار المهجور
 
 <Botany Breakers>
-STR_SCNR    :Botany Breakers
-STR_PARK    :Botany Breakers
-STR_DTLS    :Your challenge is to build a high-profit park on this paradise island
+STR_SCNR    :قاطع النباتات
+STR_PARK    :قاطع النباتات
+STR_DTLS    :التحدي الخاص بك هو بناء حديقة عالية الربح في جزيرة الفردوس هذه
 
 <Build your own Six Flags Belgium>
-STR_SCNR    :Build your own Six Flags Belgium
-STR_PARK    :Six Flags Belgium
-STR_DTLS    :Build your own version of this European Six Flags park
+STR_SCNR    :قم ببناء ستة أعلام بلجيكا الخاصة بك
+STR_PARK    :ستة أعلام بلجيكا
+STR_DTLS    :قم ببناء نسختك الخاصة من هذه حديقة الأعلام الستة الأوروبية
 
 <Build your own Six Flags Great Adventure>
-STR_SCNR    :Build your own Six Flags Great Adventure
-STR_PARK    :Six Flags Great Adventure
-STR_DTLS    :Use your design skills to recreate this Six Flags park
+STR_SCNR    :قم ببناء مغامرتك الرائعة ذات الأعلام الستة
+STR_PARK    :مغامرات الستة أعلام العظيمة
+STR_DTLS    :استخدم مهارات التصميم الخاصة بك لإعادة إنشاء حديقة الأعلام الستة
 
 <Build your own Six Flags Holland>
-STR_SCNR    :Build your own Six Flags Holland
-STR_PARK    :Six Flags Holland
-STR_DTLS    :Build this European Six Flags park the way you want to
+STR_SCNR    :قم ببناء ستة أعلام هولندا الخاصة بك
+STR_PARK    :ستة أعلام هولندا
+STR_DTLS    :قم ببناء حديقة الأعلام الستة الأوروبية بالطريقة التي تريدها
 
 <Build your own Six Flags Magic Mountain>
-STR_SCNR    :Build your own Six Flags Magic Mountain
-STR_PARK    :Six Flags Magic Mountain
-STR_DTLS    :Create your own version of this massive Six Flags park
+STR_SCNR    :قم ببناء جبل سحر الستةأعلام الخاص بك
+STR_PARK    :جبل سحر الستةأعلام
+STR_DTLS    :قم بإنشاء نسختك الخاصة من حديقة الستة أعلام الضخمة هذه
 
 <Build your own Six Flags over Texas>
-STR_SCNR    :Build your own Six Flags over Texas
-STR_PARK    :Six Flags over Texas
-STR_DTLS    :Starting from scratch, build the rides in this Six Flags park
+STR_SCNR    :قم ببناء الأعلام الستة الخاصة بولاية تكساس
+STR_PARK    :الأعلام الستة الخاصة بولاية تكساس
+STR_DTLS    :بدءاً من الصفر ، قم ببناء الرحلات في حديقة الأعلام الستة
 
 <Build your own Six Flags Park>
-STR_SCNR    :Build your own Six Flags Park
-STR_PARK    :Six Flags
-STR_DTLS    :Build your own design of Six Flags park - either build rides from other Six Flags parks or design and build your own rides
+STR_SCNR    :قم ببناء حديقة الستةأعلام الخاص بك
+STR_PARK    :الستة أعلام
+STR_DTLS    :قم ببناء التصميم الخاص بك لحديقة الأعلام الستة - أو قم ببناء الرحلات من حدائق الأعلام الستة الأخرى أو قم بتصميم وبناء ألعابك الخاصة
 
 <Bumbly Bazaar>
-STR_SCNR    :Bumbly Bazaar
-STR_PARK    :Bumbly Bazaar
-STR_DTLS    :Starting with a small market bazaar, your challenge is to increase the profit from shops and stalls by building rides and roller coasters to attract more customers
+STR_SCNR    :بازار بومبلي
+STR_PARK    :بازار بومبلي
+STR_DTLS    :بدءًا من بازار صغير، يتمثل التحدي الذي تواجهه في زيادة أرباح المتاجر والأكشاك عن طريق بناء الرحلات والأفعوانيات لجذب المزيد من الزوار
 
 <Crazy Castle>
-STR_SCNR    :Crazy Castle
-STR_PARK    :Crazy Castle
-STR_DTLS    :You have inherited a large castle. Your job is to convert it into a small theme park.
+STR_SCNR    :القصر المجنون
+STR_PARK    :القصر المجنون
+STR_DTLS    :لقد وَرثت قلعة كبيرة. مهمتك هي تحويلها إلى حديقة صغيرة.
 
 <Dusty Greens>
-STR_SCNR    :Dusty Greens
-STR_PARK    :Dusty Greens
-STR_DTLS    :Situated near a highway junction in the desert, Dusty Greens is an opportunity to develop a small golf resort into a thriving theme park
+STR_SCNR    :الخضار المُغبر
+STR_PARK    :الخضار المُغبر
+STR_DTLS    :يقع الخضار المُغبر بالقرب من تقاطع طريق سريع في الصحراء، وهو فرصة لتطوير منتجع الغولف الصغير إلى حديقة ترفيهية مزدهرة
 
 <Electric Fields>
-STR_SCNR    :Electric Fields
-STR_PARK    :Electric Fields
-STR_DTLS    :You have inherited a small farm, and your challenge is to build a small theme park amongst the fields and farm buildings
+STR_SCNR    :الحقول الكهربائية
+STR_PARK    :الحقول الكهربائية
+STR_DTLS    :لقد ورثت مزرعة صغيرة، والتحدي الذي تواجهه هو بناء حديقة صغيرة بين الحقول والمباني الزراعية
 
 <Extreme Heights>
-STR_SCNR    :Extreme Heights
-STR_PARK    :Extreme Heights
+STR_SCNR    :الأرتفاعات القصوي
+STR_PARK    :الأرتفاعات القصوي
 STR_DTLS    :Free of financial restrictions, your challenge is to expand this desert park to attract people seeking the ultimate thrills
 
 <Factory Capers>
@@ -4221,175 +4213,278 @@ STR_PARK    :Six Flags Magic Mountain
 STR_DTLS    :Build the missing Six Flags rides, or create your own designs to improve the park! But don’t forget your ultimate aim: to repay your loan while keeping the park value up!
 
 <Six Flags over Texas>
-STR_SCNR    :Six Flags over Texas
-STR_PARK    :Six Flags over Texas
-STR_DTLS    :Build the missing Six Flags rides, or create your own designs to improve the park! But don’t forget your ultimate aim: to attract more guests to the park!
+STR_SCNR    :ستة أعلام فوق تكساس
+STR_PARK    :ستة أعلام فوق تكساس
+STR_DTLS    :قم ببناء جولات الأعلام الستة المفقودة، أو قم بإنشاء تصميماتك الخاصة لتحسين الحديقة! لكن لا تنس هدفك النهائي: جذب المزيد من الضيوف إلى الحديقة!
 
 ###############################################################################
 ## Wacky Worlds Scenarios
 ###############################################################################
 <Africa - African Diamond Mine>
-STR_SCNR    :Africa - African Diamond Mine
-STR_PARK    :Mines of Africa
-STR_DTLS    :You inherited a disused diamond mine, and find a valuable diamond.  You decide to invest that money to build a world-famous theme park.
+STR_SCNR    :أفريقيا - منجم الماس الأفريقي
+STR_PARK    :مناجم أفريقيا
+STR_DTLS    :لقد ورثت منجم ألماس مهجور ووجدت ألماسة ثمينة. قررت استثمار هذه الأموال لبناء مدينة ملاهي مشهورة عالميًا.
 
 <Africa - Oasis>
-STR_SCNR    :Africa - Oasis
-STR_PARK    :Mirage Madness
-STR_DTLS    :A desert Oasis has been discovered and would provide a beautiful location for a park. Transport to the oasis has been provided.
+STR_SCNR    :أفريقيا - الواحة
+STR_PARK    :جنون السراب
+STR_DTLS    :تم اكتشاف واحة صحراوية والتي ستوفر موقعًا جميلًا للحديقة. تم توفير المواصلات من وإلى الواحة.
 
 <Africa - Victoria Falls>
-STR_SCNR    :Africa - Victoria Falls
-STR_PARK    :Over The Edge
-STR_DTLS    :A dam has been built offering abundant, cheap hydroelectric power with which to run a park. You need to reach a high park value to help repay the loan for the dam.
+STR_SCNR    :أفريقيا - شلالات فيكتوريا
+STR_PARK    :على الحافة
+STR_DTLS    :تم بناء سد يوفر طاقة كهرومائية وفيرة ورخيصة لتشغيل الحديقة. أنت بحاجة للوصول إلى قيمة عالية للحديقة للمساعدة في سداد قرض السد.
 
 <Antarctic - Ecological Salvage>
-STR_SCNR    :Antarctic - Ecological Salvage
-STR_PARK    :Icy Adventures
-STR_DTLS    :The environment agency has turned to you to transform an old oil refinery ecological eyesore into a top tourist attraction. Land is cheap but loan interest is high. You can sell the old buildings for salvage.
+STR_SCNR    :أنتاركتيكا - الإنقاذ البيئي
+STR_PARK    :المغامرات الثلجية
+STR_DTLS    :لقد لجأت إليك وكالة البيئة لتحويل مصفاة نفط قديمة صديقة للبيئة إلى منطقة جذب سياحي كبرى. الأرض رخيصة لكن الفائدة على القرض مرتفعة. يمكنك بيع المباني القديمة من أجل بعض النقود.
 
 <Asia - Great Wall of China Tourism Enhancement>
-STR_SCNR    :Asia - Great Wall of China Tourism Enhancement
-STR_PARK    :Great Wall of China
-STR_DTLS    :The authorities have decided to enhance tourism around the Great Wall by building a theme park on the adjacent land. Money is no object!
+STR_SCNR    :آسيا - تعزيز السياحة بسور الصين العظيم
+STR_PARK    :سور الصين العظيم
+STR_DTLS    :قررت السلطات تعزيز السياحة حول السور العظيم من خلال بناء مدينة ترفيهية على الأرض المجاورة. المال ليس مُعضلة!
 
 <Asia - Japanese Coastal Reclaim>
-STR_SCNR    :Asia - Japanese Coastal Reclaim
-STR_PARK    :Okinawa Coast
-STR_DTLS    :An existing park has run out of space. Your only option is to build out into the sea, and so you have taken out a loan. Height restrictions on your building are enforced due to foundations and earthquake risk.
+STR_SCNR    :آسيا - استصلاح السواحل اليابانية
+STR_PARK    :شاطئ أوكيناوا
+STR_DTLS    :نفدت مساحة الحديقة الموجودة. خيارك الوحيد هو البناء في البحر، وهكذا حصلت على قرض. يتم فرض قيود الارتفاع على المباني الخاصة بك بسبب الأساسات ومخاطر الزلازل.
 
 <Asia - Maharaja Palace>
-STR_SCNR    :Asia - Maharaja Palace
-STR_PARK    :Park Maharaja
-STR_DTLS    :You have been commissioned by the Maharaja to bring entertainment to the large local population. Build a park inspired by the Maharaja’s palace.
+STR_SCNR    :اسيا - قصر المهراجا
+STR_PARK    :حديقة المهراجا
+STR_DTLS    :لقد تم تكليفك من قبل المهراجا لإحضار الترفيه لعدد كبير من السكان المحليين. حيث يتعين عليك بناء حديقة مستوحاة من قصر المهراجا.
 
 <Australasia - Ayers Rock>
-STR_SCNR    :Australasia - Ayers Rock
-STR_PARK    :Ayers Adventure
-STR_DTLS    :You are helping Aboriginal people to build a park as part of a cultural awareness program. You need to get a large number of guests to educate them in the unique heritage of the Aboriginal people.
+STR_SCNR    :أستراليا - صخور أولورو
+STR_PARK    :مغامرات أولورو
+STR_DTLS    :أنت تساعد السكان الأصليين في بناء حديقة كجزء من برنامج التوعية الثقافية. تحتاج إلى الوصول إلى عدد كبير من الزوار لتثقيفهم حول التراث الفريد للسكان الأصليين.
 
 <Australasia - Fun at the Beach>
-STR_SCNR    :Australasia - Fun at the Beach
-STR_PARK    :Beach Barbecue Blast
-STR_DTLS    :A local entrepreneur’s sealife park has gone bust. You already operate a small park and buy the other park from the construction company. Develop a big combined park.
+STR_SCNR    :أستراليا - المرح على الشاطئ
+STR_PARK    :حفلة شواء على الشاطئ
+STR_DTLS    :تعرضت حديقة الفقمة الخاصة برجل أعمال محلي للإفلاس. أنت حاليًا تدير حديقة صغيرة، قُمت بشراء الحديقة الأخرى من شركة البناء. ويتعين عليك الأن تطوير حديقة مشتركة كبيرة.
 
 <Europe - European Cultural Festival>
-STR_SCNR    :Europe - European Cultural Festival
-STR_PARK    :European Extravaganza
-STR_DTLS    :You have been brought in to take over a European Cultural Visitor Attraction and must increase the number of guests in order to pay back the EU subsidy by the end of the current European parliament term.
+STR_SCNR    :أوروبا - المهرجان الثقافي الأوروبي
+STR_PARK    :الروعة الأوروبية
+STR_DTLS    :لقد تم إحضارك لتولي مركز جذب الزوار الثقافيين الأوروبيين ويجب عليك زيادة عدد الضيوف من أجل سداد دعم الاتحاد الأوروبي بحلول نهاية الدورة الحالية للبرلمان الأوروبي.
 
 <Europe - Renovation>
-STR_SCNR    :Europe - Renovation
-STR_PARK    :From The Ashes
-STR_DTLS    :An old park has fallen into disrepair. You gain a European Union grant to return this deprived area to its former glory! You need to renovate the park and repay the grant.
+STR_SCNR    :أوروبا - التجديد
+STR_PARK    :من الرماد
+STR_DTLS    :لقد أصبحت هذه الحديقة القديمة بحالة يرثى لها. حَصلت على منحة من الاتحاد الأوروبي لإعادة هذه المنطقة المحرومة إلى مجدها السابق! تحتاج إلى تجديد الحديقة وسداد المنحة.
 
 <N. America - Extreme Hawaiian Island>
-STR_SCNR    :North America - Extreme Hawaiian Island
-STR_PARK    :Wacky Waikiki
-STR_DTLS    :The people of Hawaii are bored of surfing and are looking for something more intense. You need to build a park with this in mind to keep the area’s tourist attraction rating high.
+STR_SCNR    :أمريكا الشمالية - جزيرة هاواي الأخيرة
+STR_PARK    :واكي وايكيكي
+STR_DTLS    :يشعر سكان هاواي بالملل من ركوب الأمواج ويبحثون عن شيء أكثر إثارة. تحتاج إلى بناء حديقة مع وضع ذلك في الاعتبار للحفاظ على التصنيف المرتفع لمناطق الجذب السياحي في المنطقة.
 
 <North America - Grand Canyon>
-STR_SCNR    :North America - Grand Canyon
-STR_PARK    :Canyon Calamities
-STR_DTLS    :You have to build a park on limited land either side of this natural treasure - you do have the opportunity to buy neighbouring land from the Native American Indians. You need to complete the objective to sustain the local town’s population.
+STR_SCNR    :أمريكا الشمالية - الوادي العظيم
+STR_PARK    :أحداث الوادي
+STR_DTLS    :عليك بناء حديقة على أرض محدودة على جانبي هذا الكنز الطبيعي - لديك الفرصة لشراء الأراضي المجاورة من الهنود الأمريكيين الأصليين. تحتاج إلى إكمال الهدف للحفاظ على سكان المدينة المحلية.
 
 <North America - Rollercoaster Heaven>
-STR_SCNR    :North America - Rollercoaster Heaven
-STR_PARK    :Rollercoaster Heaven
-STR_DTLS    :You are a successful business tycoon on long sabbatical who desires to use this time transforming the city park into Rollercoaster Heaven. Money is no object!
+STR_SCNR    :أمريكا الشمالية - جنة الأفعوانيات
+STR_PARK    :جنة الأفعوانيات
+STR_DTLS    :أنت رجل أعمال ناجح في إجازة طويلة وترغب في استغلال هذا الوقت في تحويل حديقة المدينة إلى جنة أفعوانيات. المال ليس عائقًا!
 
 <South America - Inca Lost City>
-STR_SCNR    :South America - Inca Lost City
-STR_PARK    :Lost City Founder
-STR_DTLS    :To further boost local tourism you must construct a park that is in tune with its surroundings, and has height restrictions.
+STR_SCNR    :أمريكا الجنوبية - مدينة الإنكا المفقودة
+STR_PARK    :مؤسس المدينة المفقودة
+STR_DTLS    :لتعزيز السياحة المحلية، يجب عليك إنشاء حديقة تتماشى مع محيطها، ولها قيود على الارتفاع.
 
 <South America - Rain Forest Plateau>
-STR_SCNR    :South America - Rain Forest Plateau
-STR_PARK    :Rainforest Romp
-STR_DTLS    :Space is limited in the precious rainforest - you must cram as much as possible into the existing clearing, in order to provide a viable alternative to the local timber industry.
+STR_SCNR    :أمريكا الجنوبية - هضبة الغابات المطيرة
+STR_PARK    :العاب الغابات المطيرة
+STR_DTLS    :المساحة محدودة في الغابات المطيرة الثمينة - حيث يجب عليك ضم أكبر قدر ممكن في المساحة المخلية الحالية، من أجل توفير بديل قابل للتطبيق لصناعة الأخشاب المحليةالمساحة محدودة في الغابات المطيرة الثمينة - يجب حشر أكبر قدر ممكن في المساحة المخلية الحالية، من أجل توفير بديل قابل للتطبيق لصناعة الأخشاب المحلية.
 
 <South America - Rio Carnival>
-STR_SCNR    :South America - Rio Carnival
-STR_PARK    :Sugarloaf Shores
-STR_DTLS    :You run a small park near Rio but the bank has called in your loan. You need to quickly increase your earning capacity to repay this unexpected debt.
+STR_SCNR    :أمريكا الجنوبية - كرنفال ريو
+STR_PARK    :شواطئ باو دي أسوكار
+STR_DTLS    :انت تُدير حديقة صغيرة بالقرب من مدينة ريو لكن البنك طالبك بالقرض. تحتاج إلى زيادة ربحك بسرعة لتسديد هذا الدين غير المتوقع.
 
 ###############################################################################
 ## Time Twister Scenarios
 ###############################################################################
 <Dark Age - Castle>
-STR_SCNR    :Dark Age - Castle
-STR_PARK    :Cliffside Castle
-STR_DTLS    :Local members of the battle re-enactment society are rather serious about their hobby. They’ve entrusted you with the job of constructing a Dark Age theme park on the grounds of Cliffside Castle.
+STR_SCNR    :العصور المظلمة - القلعة
+STR_PARK    :قلعة كليفسايد
+STR_DTLS    :الأعضاء المحليون في مجتمع إعادة تمثيل المعركة جادون إلى حد ما بشأن هوايتهم. لقد عهدوا إليك بمهمة بناء مدينة ملاهي بطابع العصور المظلمة على أراضي قلعة كليفسايد.
 
 <Dark Age - Robin Hood>
-STR_SCNR    :Dark Age - Robin Hood
-STR_PARK    :Sherwood Forest
-STR_DTLS    :To liberate wealth from the rich and distribute it to the needy, you and your Merry Men have decided to build a theme park in Sherwood Forest.
+STR_SCNR    :العصور المظلمة - روبن هود
+STR_PARK    :غابة شيروود
+STR_DTLS    :لتحرير الثروة من الأثرياء وتوزيعها على المحتاجين، قررت أنت ورجالك التابعين بناء مدينة ملاهي في غابة شيروود.
 
 <Future - First Encounters>
-STR_SCNR    :Future - First Encounters
-STR_PARK    :Extraterrestrial Extravaganza
-STR_DTLS    :Life has been discovered on a distant planet Build an alien theme park to cash in on the unprecedented wave of interest.
+STR_SCNR    :المستقبل - اللقاءات الأولى
+STR_PARK    :الروعة خارج الأرض
+STR_DTLS    :تم اكتشاف الحياة على كوكب بعيد، قم ببناء متنزه غريب للاستفادة من موجة الاهتمام غير المسبوقة.
 
 <Future - Future World>
-STR_SCNR    :Future - Future World
-STR_PARK    :Gemini City
-STR_DTLS    :Show off your inventive, utopian vision of the future - come up with a futuristic park design that incorporates state-of-the-art attractions.
+STR_SCNR    :المستقبل - عالم المستقبل
+STR_PARK    :مدينة الجوزاء
+STR_DTLS    :أظهر رؤيتك المبتكرة والمثالية للمستقبل - ابتكر تصميمًا مستقبليًا للحديقة يتضمن أحدث عوامل الجذب.
 
 <Mythological - Animatronic Film Set>
-STR_SCNR    :Mythological - Animatronic Film Set
-STR_PARK    :Animatronic Antics
-STR_DTLS    :You have been given the task of running and improving an existing theme park, which has been built on an old film set. Build a tribute to the pioneering stop-motion animators who first brought mythical creatures to life on the silver screen.
+STR_SCNR    :الأساطير  - موقع أفلام أنيماترونكس
+STR_PARK    :تحفيات أنيماترونكس
+STR_DTLS    :لقد تم تكليفك بمهمة تشغيل وتحسين مدينة ملاهي موجودة، والتي تم إنشاؤها على مجموعة أفلام قديمة. أنشئ تكريمًا لرسامي تقنية إيقاف الحركة الرائدين الذين قاموا بإحياء الكائنات الأسطورية على الشاشة الفضية لأول مرة.
 
 <Mythological - Cradle of Civilisation>
-STR_SCNR    :Mythological - Cradle of Civilisation
-STR_PARK    :Mythological Madness
-STR_DTLS    :You own an island of particular archaeological value. You’ve decided to fund its preservation by constructing a theme park based on the area’s rich Mythological heritage.
+STR_SCNR    :الأساطير - مهد الحضارة
+STR_PARK    :جنون الأساطير
+STR_DTLS    :أنت تمتلك جزيرة ذات قيمة أثرية معينة. لقد قررت تمويل الحفاظ عليها من خلال بناء مدينة ملاهي على أساس التراث الأسطوري الغني للمنطقة.
 
 <Prehistoric - After the Asteroid>
-STR_SCNR    :Prehistoric - After the Asteroid
-STR_PARK    :Crater Carnage
-STR_DTLS    :You own a dusty old meteor crater. In the true entrepreneurial spirit, you’ve decided to construct an asteroid theme park and convert your seemingly worthless land into a sizeable fortune.
+STR_SCNR    :ماقبل التاريخ - بعد النيزك
+STR_PARK    :المذبحة الحفرة
+STR_DTLS    :أنت تمتلك حفرة نيزك قديمة متربة. بروح ريادة الأعمال الحقيقية، قررت إنشاء مدينة ملاهي ذات طابع نايزك وكويكبات وتحويل أرضك التي تبدو بلا قيمة إلى ثروة كبيرة.
 
 <Prehistoric - Jurassic Safari>
-STR_SCNR    :Prehistoric - Jurassic Safari
-STR_PARK    :Coastersaurus
-STR_DTLS    :You’ve been given the task of constructing a Jurassic era theme park. To optimize your visitors’ access to the exotic plant and animal exhibits, you will need to build rides going over and into the valley.
+STR_SCNR    :ماقبل التاريخ - سفاري جوراسي 
+STR_PARK    :كوسترسورس
+STR_DTLS    :لقد تم تكليفك بمهمة بناء مدينة ملاهي ذات طابع من العصر الجوراسي. لتحسين وصول الزائرين إلى المعروضات النباتية والحيوانية الغريبة، ستحتاج إلى إنشاء رحلات تجول في الوادي وداخله.
 
 <Prehistoric - Stone Age>
-STR_SCNR    :Prehistoric - Stone Age
-STR_PARK    :Rocky Rambles
-STR_DTLS    :To thwart the highway developers and preserve the mysterious ancient stone circles, you will need to construct a Stone Age theme park and turn a profit. However, attracting visitors may pose a challenge, as the terrain is a tad inhospitable.
+STR_SCNR    :ماقبل التاريخ - العصر الحجري
+STR_PARK    :الرحلات الحجرية
+STR_DTLS    :لإحباط مطوري الطرق السريعة والحفاظ على الدوائر الحجرية القديمة الغامضة، ستحتاج إلى إنشاء مدينة ملاهي ذا طابع العصر الحجري وزيادة الأرباح. ومع ذلك، قد يشكل جذب الزوار تحديًا، حيث أن التضاريس غير مضيافة.
 
 <Roaring Twenties - Prison Island>
-STR_SCNR    :Roaring Twenties - Prison Island
-STR_PARK    :Alcatraz
-STR_DTLS    :The infamous Prison Island - whose population once swelled with bootleggers and racketeers - is now up for sale. You’ve decided to convert it into a top tourist attraction, and money is no object
+STR_SCNR    :العشرينيات الصاخبة - جزيرة السجن
+STR_PARK    :ألكتراز
+STR_DTLS    :جزيرة السجن سيئة السمعة - التي زاد عدد سكانها ذات يوم بالمهربين والمبتزين - معروضة للبيع الآن. لقد قررت تحويلها إلى منطقة جذب سياحي كبرى، والمال ليس مُعضلة
 
 <Roaring Twenties - Schneider Cup>
-STR_SCNR    :Roaring Twenties - Schneider Cup
-STR_PARK    :Schneider Shores
-STR_DTLS    :The 75th anniversary of your grandfather’s Schneider Cup victory is coming up in a few years. You’re going to honour his achievement by building a theme park based on the famous seaplane race.
+STR_SCNR    :العشرينيات الصاخبة - كأس شنايدر
+STR_PARK    :شواطئ شنايدر
+STR_DTLS    :تقترب الذكرى 75 لفوز جدك بكأس شنايدر في غضون بضع سنوات. سوف تكرم إنجازه من خلال بناء مدينة ملاهي على أساس سباق الطائرات المائية الشهير.
 
 <Roaring Twenties - Skyscrapers>
-STR_SCNR    :Roaring Twenties - Skyscrapers
-STR_PARK    :Metropolis
-STR_DTLS    :You own an empty lot near the low-rise part of town. To squeeze the most out of your urban property, build a skyscraper theme park inspired by the soaring art deco architecture of the twenties.
+STR_SCNR    :العشرينيات الصاخبة - ناطحات السحب
+STR_PARK    :متروبوليس
+STR_DTLS    :أنت تمتلك قطعة أرض فارغة بالقرب من الجزء المنخفض من المدينة. لتحقيق أقصى استفادة من الممتلكات الحضرية الخاصة بك ، قم ببناء مدينة ملاهي مع ناطحات سحاب مستوحاة من العمارة الشاهقة على طراز فن الآرت ديكو في العشرينات.
 
 <Rock 'n' Roll - Flower Power>
-STR_SCNR    :Rock ‘n’ Roll - Flower Power
-STR_PARK    :Woodstock
-STR_DTLS    :A large annual music festival takes place on your land. Build a hip theme park to keep the free-spirited audience entertained.
+STR_SCNR    :روك أند رول - قوة الورود
+STR_PARK    :وودستوك
+STR_DTLS    :يُقام مهرجان موسيقي سنوي كبير على أرضك. أنشئ متنزهًا عصريًا للترفيه عن الجمهور المفعم بالحيوية.
 
 <Rock 'n' Roll - Rock 'n' Roll>
-STR_SCNR    :Rock ‘n’ Roll - Rock ‘n’ Roll
-STR_PARK    :Rock ‘n’ Roll Revival
-STR_DTLS    :This aging theme park has seen better days. Help the owner give it a retro rock ‘n’ roll makeover and turn the place into a successful venue.
+STR_SCNR    :روك أند رول - روك أند رول
+STR_PARK    :إحياء الروك أند رول
+STR_DTLS    :شهدت مدينة ملاهي القديمة هذه أيامًا أفضل. ساعد المالك على إضفاء مظهر روك أند رول وحول المكان إلى مكان ناجح.
 
 ###############################################################################
 ## Official Custom Content Scenarios
 ###############################################################################
 <Panda World>
-STR_SCNR    :Panda World
-STR_PARK    :Panda World
-STR_DTLS    :Add more rides and attract more people to this panda-themed park
+STR_SCNR    :عالم الباندا
+STR_PARK    :عالم الباندا
+STR_DTLS    :أضف رحلات أكثر وقم بجذب مزيد من الناس إلى الحديقة بطابع الباندا
+
+<Tycoon Park>
+STR_SCNR    :حديقة تايكون
+STR_PARK    :حديقة تايكون
+STR_DTLS    :
+
+#####
+<UCES Halloween>
+STR_SCNR    :مقبرة التلال
+STR_PARK    :مقبرة التلال
+STR_DTLS    :هذا عيد الهالوين ،UCES هالوين، القرع يصرخ في جوف الليل! هذه المقبرة في ورطة والأمر متروك لك لإنقاذها مع ترك الموتى يرقدون بسلام! هل يمكنك إبقاء الأشباح في قبورهم وتجلب القشعريرة لعملائك؟{NEWLINE}المؤلف: Squid
+
+###############################################################################
+## UCES: The Time Machine (2003)
+###############################################################################
+<Lighthouse of Alexandria by Katatude for UCES>
+STR_SCNR    :منارة الأسكندرية
+STR_PARK    :منارة الأسكندرية
+STR_DTLS    :بنى الإسكندر هذه المدينة. ترك الإغريق والرومان والمصريون بصماتهم. ولكن كان التكريم الأكبر هو أعجوبة العالم القديم - المنارة. قم بزيارتها وإنشئ حديقة ترفيهية!{NEWLINE}المؤلف: Katatude
+
+<Cleveland's Luna Park>
+STR_SCNR    :حديقة لونا، كليفلاند
+STR_PARK    :حديقة لونا
+STR_DTLS    :كما كانت في يوم أفتتاحها - 18 مايو 1905.{NEWLINE}المؤلف: Aetherwave
+
+<Mount Vesuvius 1700 A.D. by Katatude for UCES>
+STR_SCNR    :جبل فيزوف
+STR_PARK    :جبل فيزوف
+STR_DTLS    :بومبي وهيركولانيوم دفنهم جبل فيزوف في 79 قبل الميلاد. قم بزيارة الحفريات وقم ببناء حديقة!{NEWLINE}المؤلف: Katatude
+
+<The Sandbox by Katatude for UCES>
+STR_SCNR    :صندوق التجارب
+STR_PARK    :صندوق التجارب
+STR_DTLS    :ما يريده الجميع - صندوق تجارب! لذا خذ سطلًا صغيرًا ومجرفة وأستعد لبناء الحديقة!{NEWLINE}المؤلف: Katatude
+
+<Niagara Falls & Gorge by Katatude for UCES>
+STR_SCNR    :شلالات نياجرا والمضيق
+STR_PARK    :شلالات نياجرا
+STR_DTLS    :الشلالات الأمريكية، وشلالات برايدل، وشلالات حدوة الحصان الكندية على حدود نياجرا فرونتير، 1850.{NEWLINE}المؤلف: Katatude
+
+<Rocky Mountain Miners>
+STR_SCNR    :منقبي الصخور الجبلية
+STR_PARK    :منقبي الصخور الجبلية
+STR_DTLS    :تسبب الانهيار الصخري في إتلاف السكك الحديدية الخاصة بك. لقد ذهب عمالك للتنقيب. هل يوجد ذهب في الأفوانيات?{NEWLINE}المؤلفون: Squid, Buckone, Fossil
+
+<The Time Machine by Katatude for UCES>
+STR_SCNR    :آلة السفر عبر الزمن
+STR_PARK    :آلة السفر عبر الزمن
+STR_DTLS    :آلة السفر عبر الزمن. صمم لتذهب - عندما تريد، أينما تريد. الأبدية تنتظر. انها كلها نسبية.{NEWLINE}المؤلف: Katatude
+
+<Tower of Babel>
+STR_SCNR    :برج بابل
+STR_PARK    :برج بابل
+STR_DTLS    :قف! انظر أين أخذتنا آلة الزمن الآن! أين ذهب الجميع?{NEWLINE}المؤلف: Fossil
+
+<Transformation>
+STR_SCNR    :التحول
+STR_PARK    :التحول
+STR_DTLS    :كنا نتوقع ظهورك…{NEWLINE}المؤلف: Fossil
+
+<Urbis Incognitus>
+STR_SCNR    :المدينة المجهولة
+STR_PARK    :المدينة المجهولة
+STR_DTLS    :سئم الرومان من معارك المصارع المملة. امنحهم الإثارة الأفضل، وحوّل هذه المدينة الرومانية إلى أعظم مدينة ملاهي على الإطلاق!{NEWLINE}المؤلف: Kaffe
+
+###############################################################################
+## UCES: Katy’s Dreamworld (2003)
+###############################################################################
+
+<Beneath the Christmas Tree by Katatude for UCES>
+STR_SCNR    :تحت شجرة عيد الميلاد
+STR_PARK    :أرض عجائب الشتاء
+STR_DTLS    :قامت أمي ببناء هذا المشهد تحت شجرتنا. الآن تريد إنشاء حديقة فيها! هل يمكنك المساعدة?{NEWLINE}المؤلف: Katatude
+
+<Bigrock Blast>
+STR_SCNR    :انفجار بيجروك
+STR_PARK    :انفجار بيجروك
+STR_DTLS    :بعد انفجار في شركة شركة بيجروك للتعدين، يتعين على سكان بيجروك بناء مدينة ملاهي للحفاظ على حياة بلدتهم.{NEWLINE}المؤلفان: rbarclay & buckone
+
+<Camp Mockingbird for UCES by Katatude>
+STR_SCNR    :معسكر الطائر المحاكي
+STR_PARK    :معسكر الطائر المحاكي
+STR_DTLS    :500 دولار فقط في الأسبوع لهذا المخيم الصيفي! أسترح وإفتح البنك الخاص بك ثم استمتع وقم ببناء حديقة.{NEWLINE}المؤلف: Katatude
+
+<Choo Choo Town>
+STR_SCNR    :مدينة تشو تشو
+STR_PARK    :مدينة تشو تشو
+STR_DTLS    :ماما! بابا! أريد الذهاب لمدينة تشو تشو!{NEWLINE}المؤلف: Fossil
+
+<Dragon Islands>
+STR_SCNR    :جزر التنين
+STR_PARK    :جزر التنين
+STR_DTLS    :جزر التنين? لست متأكدًا من أنني أريد الذهاب إلى هناك…{NEWLINE}المؤلف: Fossil
+
+<Kiddy Karnival II>
+STR_SCNR    :كرنفال الأطفال 2
+STR_PARK    :كرنفال الأطفال
+STR_DTLS    :يا أطفال! هيا نمرح!{NEWLINE}المؤلفان: Piehead & Fossil
+
+<Sand Dune>
+STR_SCNR    :الكثبان الرملية
+STR_PARK    :الكثبان الرملية
+STR_DTLS    :باعتبارك مالكًا لمتنزه صغير، فقد اشتريت قطعة أرض كبيرة على طول الشاطئ للتوسع وجذب المزيد من الضيوف لزيارة الكثبان الرملية الجميلة، ولكن احذر: لا يمكنك إزعاج تلك الكثبان الرملية الهشة بيئيًا.{NEWLINE}المؤلف: rbarclay

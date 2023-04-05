@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2020 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -64,8 +64,8 @@ void Balloon::Press()
     {
         // There is a random chance that pressing the balloon will not pop it
         // and instead shift it slightly
-        uint32_t random = scenario_rand();
-        if ((sprite_index.ToUnderlying() & 7) || (random & 0xFFFF) < 0x2000)
+        uint32_t random = ScenarioRand();
+        if ((Id.ToUnderlying() & 7) || (random & 0xFFFF) < 0x2000)
         {
             Pop();
         }
@@ -109,7 +109,7 @@ void Balloon::Serialise(DataSerialiser& stream)
     stream << colour;
 }
 
-void Balloon::Paint(paint_session& session, int32_t imageDirection) const
+void Balloon::Paint(PaintSession& session, int32_t imageDirection) const
 {
     PROFILED_FUNCTION();
 
@@ -119,6 +119,6 @@ void Balloon::Paint(paint_session& session, int32_t imageDirection) const
         imageId += 8;
     }
 
-    imageId = imageId | (colour << 19) | IMAGE_TYPE_REMAP;
-    PaintAddImageAsParent(session, imageId, { 0, 0, z }, { 1, 1, 0 });
+    auto image = ImageId(imageId, colour);
+    PaintAddImageAsParent(session, image, { 0, 0, z }, { 1, 1, 0 });
 }

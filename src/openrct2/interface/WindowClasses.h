@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2022 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -86,6 +86,7 @@ enum class WindowClass : uint8_t
     ObjectLoadError = 132,
     PatrolArea = 133,
     Transparency = 134,
+    AssetPacks = 135,
 
     // Only used for colour schemes
     Staff = 220,

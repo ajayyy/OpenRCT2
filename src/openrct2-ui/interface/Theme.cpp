@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2022 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -129,6 +129,7 @@ static constexpr const WindowThemeDesc WindowThemeDescriptors[] =
     { WindowClass::Scenery,                     "WC_SCENERY",                        STR_THEMES_WINDOW_SCENERY,                        COLOURS_3(COLOUR_DARK_BROWN,               COLOUR_DARK_GREEN,               COLOUR_DARK_GREEN                                  ) },
     { WindowClass::SceneryScatter,              "WC_SCENERY_SCATTER",                STR_THEMES_WINDOW_SCENERY_SCATTER,                COLOURS_3(COLOUR_DARK_BROWN,               COLOUR_DARK_GREEN,               COLOUR_DARK_GREEN                                  ) },
     { WindowClass::Options,                     "WC_OPTIONS",                        STR_THEMES_WINDOW_OPTIONS,                        COLOURS_3(COLOUR_GREY,                     COLOUR_LIGHT_BLUE,               COLOUR_LIGHT_BLUE                                  ) },
+    { WindowClass::AssetPacks,                  "WC_ASSET_PACKS",                    STR_ASSET_PACKS,                                  COLOURS_3(COLOUR_LIGHT_BLUE,               COLOUR_LIGHT_BLUE,               COLOUR_LIGHT_BLUE                                  ) },
     { WindowClass::Footpath,                    "WC_FOOTPATH",                       STR_THEMES_WINDOW_FOOTPATH,                       COLOURS_3(COLOUR_DARK_BROWN,               COLOUR_DARK_BROWN,               COLOUR_DARK_BROWN                                  ) },
     { WindowClass::Land,                        "WC_LAND",                           STR_THEMES_WINDOW_LAND,                           COLOURS_3(COLOUR_DARK_BROWN,               COLOUR_DARK_BROWN,               COLOUR_DARK_BROWN                                  ) },
     { WindowClass::Water,                       "WC_WATER",                          STR_THEMES_WINDOW_WATER,                          COLOURS_3(COLOUR_DARK_BROWN,               COLOUR_DARK_BROWN,               COLOUR_DARK_BROWN                                  ) },
@@ -206,6 +207,7 @@ static constexpr const UIThemeWindowEntry PredefinedThemeRCT1_Entries[] =
     { WindowClass::TitleOptions,           COLOURS_RCT1(TRANSLUCENT(COLOUR_GREY),  TRANSLUCENT(COLOUR_GREY),   TRANSLUCENT(COLOUR_GREY),   COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
     { WindowClass::Staff,                  COLOURS_RCT1(COLOUR_DARK_GREEN,         COLOUR_LIGHT_PURPLE,        COLOUR_LIGHT_PURPLE,        COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
     { WindowClass::Options,                COLOURS_RCT1(COLOUR_GREY,               COLOUR_DARK_BROWN,          COLOUR_DARK_BROWN,          COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
+    { WindowClass::AssetPacks,             COLOURS_RCT1(COLOUR_DARK_BROWN,         COLOUR_DARK_BROWN,          COLOUR_DARK_BROWN,          COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
     { WindowClass::KeyboardShortcutList,   COLOURS_RCT1(COLOUR_DARK_BROWN,         COLOUR_DARK_BROWN,          COLOUR_DARK_BROWN,          COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
     { WindowClass::ChangeKeyboardShortcut, COLOURS_RCT1(COLOUR_DARK_BROWN,         COLOUR_DARK_BROWN,          COLOUR_DARK_BROWN,          COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
     { WindowClass::TrackDesignList,        COLOURS_RCT1(COLOUR_DARK_BROWN,         COLOUR_DARK_BROWN,          COLOUR_DARK_BROWN,          COLOUR_BLACK,    COLOUR_BLACK,    COLOUR_BLACK)    },
@@ -402,7 +404,7 @@ bool UITheme::WriteToFile(const std::string& path) const
     }
     catch (const std::exception& ex)
     {
-        log_error("Unable to save %s: %s", path.c_str(), ex.what());
+        LOG_ERROR("Unable to save %s: %s", path.c_str(), ex.what());
         result = false;
     }
 
@@ -473,7 +475,7 @@ UITheme* UITheme::FromFile(const std::string& path)
     }
     catch (const std::exception&)
     {
-        log_error("Unable to read theme: %s", path.c_str());
+        LOG_ERROR("Unable to read theme: %s", path.c_str());
         result = nullptr;
     }
     return result;
@@ -567,7 +569,7 @@ namespace ThemeManager
         CurrentTheme = theme;
         CurrentThemePath.clear();
 
-        gfx_invalidate_screen();
+        GfxInvalidateScreen();
     }
 
     static void LoadTheme(const std::string& path)
@@ -615,9 +617,9 @@ namespace ThemeManager
         ActiveAvailableThemeIndex = 1;
 
         bool configValid = false;
-        if (!String::IsNullOrEmpty(gConfigInterface.current_theme_preset))
+        if (!gConfigInterface.CurrentThemePreset.empty())
         {
-            if (LoadThemeByConfigName(gConfigInterface.current_theme_preset))
+            if (LoadThemeByConfigName(gConfigInterface.CurrentThemePreset.c_str()))
             {
                 configValid = true;
             }
@@ -625,7 +627,7 @@ namespace ThemeManager
 
         if (!configValid)
         {
-            String::DiscardDuplicate(&gConfigInterface.current_theme_preset, ThemeManagerGetAvailableThemeConfigName(1));
+            gConfigInterface.CurrentThemePreset = ThemeManagerGetAvailableThemeConfigName(1);
         }
     }
 
@@ -680,7 +682,7 @@ const utf8* ThemeManagerGetAvailableThemeConfigName(size_t index)
 const utf8* ThemeManagerGetAvailableThemeName(size_t index)
 {
     if (index < ThemeManager::NumPredefinedThemes)
-        return language_get_string(PredefinedThemes[index].Name);
+        return LanguageGetString(PredefinedThemes[index].Name);
     return ThemeManager::AvailableThemes[index].Name.c_str();
 }
 
@@ -707,7 +709,7 @@ void ThemeManagerSetActiveAvailableTheme(size_t index)
         }
     }
     ThemeManager::ActiveAvailableThemeIndex = index;
-    String::DiscardDuplicate(&gConfigInterface.current_theme_preset, ThemeManagerGetAvailableThemeConfigName(index));
+    gConfigInterface.CurrentThemePreset = ThemeManagerGetAvailableThemeConfigName(index);
 
     ColourSchemeUpdateAll();
 }
@@ -803,7 +805,7 @@ void ThemeRename(const utf8* name)
         if (Path::Equals(newPath, ThemeManager::AvailableThemes[i].Path))
         {
             ThemeManager::ActiveAvailableThemeIndex = i;
-            String::DiscardDuplicate(&gConfigInterface.current_theme_preset, ThemeManagerGetAvailableThemeConfigName(1));
+            gConfigInterface.CurrentThemePreset = ThemeManagerGetAvailableThemeConfigName(1);
             break;
         }
     }
@@ -828,7 +830,7 @@ void ThemeDuplicate(const utf8* name)
         if (Path::Equals(newPath, ThemeManager::AvailableThemes[i].Path))
         {
             ThemeManager::ActiveAvailableThemeIndex = i;
-            String::DiscardDuplicate(&gConfigInterface.current_theme_preset, ThemeManagerGetAvailableThemeConfigName(i));
+            gConfigInterface.CurrentThemePreset = ThemeManagerGetAvailableThemeConfigName(i);
             break;
         }
     }
@@ -839,7 +841,7 @@ void ThemeDelete()
     File::Delete(ThemeManager::CurrentThemePath);
     ThemeManager::LoadTheme(const_cast<UITheme*>(&PredefinedThemeRCT2));
     ThemeManager::ActiveAvailableThemeIndex = 1;
-    String::DiscardDuplicate(&gConfigInterface.current_theme_preset, ThemeManagerGetAvailableThemeConfigName(1));
+    gConfigInterface.CurrentThemePreset = ThemeManagerGetAvailableThemeConfigName(1);
 }
 
 void ThemeManagerInitialise()
@@ -869,15 +871,15 @@ StringId ThemeDescGetName(WindowClass wc)
 
 void ColourSchemeUpdateAll()
 {
-    window_visit_each([](rct_window* w) { ColourSchemeUpdate(w); });
+    WindowVisitEach([](WindowBase* w) { ColourSchemeUpdate(w); });
 }
 
-void ColourSchemeUpdate(rct_window* window)
+void ColourSchemeUpdate(WindowBase* window)
 {
     ColourSchemeUpdateByClass(window, window->classification);
 }
 
-void ColourSchemeUpdateByClass(rct_window* window, WindowClass classification)
+void ColourSchemeUpdateByClass(WindowBase* window, WindowClass classification)
 {
     const WindowTheme* windowTheme;
     const UIThemeWindowEntry* entry = ThemeManager::CurrentTheme->GetEntry(classification);

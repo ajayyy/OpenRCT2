@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2014-2021 OpenRCT2 developers
+ * Copyright (c) 2014-2023 OpenRCT2 developers
  *
  * For a complete list of all authors, please refer to contributors.md
  * Interested in contributing? Visit https://github.com/OpenRCT2/OpenRCT2
@@ -39,7 +39,7 @@ namespace RCT2::Limits
     constexpr const uint8_t MaxBannerObjects = 32;
     constexpr const uint8_t MaxPathObjects = 16;
     constexpr const uint8_t MaxPathAdditionObjects = 15;
-    constexpr const uint8_t MaxScenereyGroupObjects = 19;
+    constexpr const uint8_t MaxSceneryGroupObjects = 19;
     constexpr const uint8_t MaxParkEntranceObjects = 1;
     constexpr const uint8_t MaxWaterObjects = 1;
     constexpr const uint8_t MaxScenarioTextObjects = 1;
