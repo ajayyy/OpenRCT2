@@ -2857,7 +2857,7 @@ static bool PeepShouldGoOnRideAgain(Guest* peep, const Ride& ride)
         return false;
     if (peep->Toilet > 170)
         return false;
-    if (peep->PathfindTransport.TransportUsing && peep->PathfindTransport.TransportId == ride->id)
+    if (peep->PathfindTransport.TransportUsing && peep->PathfindTransport.TransportId == ride.id)
         return false;
 
     uint8_t r = (ScenarioRand() & 0xFF);

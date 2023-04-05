@@ -22,6 +22,7 @@
 #include "../world/Footpath.h"
 
 #include "../localisation/Localisation.h"
+#include "../localisation/Formatting.h"
 #include <bitset>
 #include <cstring>
 
@@ -804,7 +805,7 @@ static void PeepPathfindHeuristicSearch(
                             /* The rideIndex will be useful for
                              * adding transport rides later. */
                             rideIndex = tileElement->AsEntrance()->GetRideIndex();
-                            Ride* ride = get_ride(rideIndex);
+                            Ride* ride = GetRide(rideIndex);
                             searchResult = PATH_SEARCH_RIDE_ENTRANCE;
                             found = true;
 
@@ -815,7 +816,7 @@ static void PeepPathfindHeuristicSearch(
                             // ShouldGoOnRide follows same logic for other destinations
                             // _pathFindDebug is useful when debugging tracked guest only
                             //if(_pathFindDebug && guest != nullptr && !recurseTransport->TransportUsing && rideIndex != guest->GuestHeadingToRideId && guest->ShouldGoOnRide(ride, tileElement->AsEntrance()->GetStationIndex(), false, true))                            
-                            if(guest != nullptr && !recurseTransport->TransportUsing && rideIndex != guest->GuestHeadingToRideId && guest->ShouldGoOnRide(ride, tileElement->AsEntrance()->GetStationIndex(), false, true))                            
+                            if(guest != nullptr && !recurseTransport->TransportUsing && rideIndex != guest->GuestHeadingToRideId && guest->ShouldGoOnRide(*ride, tileElement->AsEntrance()->GetStationIndex(), false, true))                            
                             {
                                 uint8_t transportPenalty = counter;
                                 StationIndex stationIndex = tileElement->AsEntrance()->GetStationIndex();
@@ -827,7 +828,7 @@ static void PeepPathfindHeuristicSearch(
                                 if ( guest_path_find_transport_station(guest, ride, stationIndex, &transportPenalty, &transportExit, &transportTileElement) )
                                 {
                                     recurseTransport->TransportUsing = true;
-                                    peep_pathfind_heuristic_search(
+                                    PeepPathfindHeuristicSearch(
                                         { transportExit.x, transportExit.y, transportExit.z }, peep, transportTileElement, nextInPatrolArea, transportPenalty, &transportScore, transportExit.direction, endJunctions,
                                         junctionList, directionList, endXYZ, &transportSteps, recurseTransport);
                                 }
@@ -845,7 +846,7 @@ static void PeepPathfindHeuristicSearch(
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
                                     if (_pathFindDebug)
                                     {
-                                        log_info("[%03d] We were unsuccessful in using transport ride, reset usedTransport", counter);
+                                        LOG_INFO("[%03d] We were unsuccessful in using transport ride, reset usedTransport", counter);
                                     }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
                                 }
@@ -1350,7 +1351,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
         Guest* guest = peep.As<Guest>();        
         if(guest->PathfindTransport.TransportUsing && !guest->PathfindTransport.TransportId.IsNull())
         {
-            Ride* transportRide = get_ride(guest->PathfindTransport.TransportId);
+            Ride* transportRide = GetRide(guest->PathfindTransport.TransportId);
             const auto& transportStation = transportRide->GetStation(guest->PathfindTransport.TransportStation);
             auto entranceXY = TileCoordsXY(transportStation.Start);
             goal.x = entranceXY.x;
@@ -2425,7 +2426,7 @@ static bool guest_path_find_transport_station(Guest* Guest, Ride* ride, StationI
     //We're at the entrace of transport ride where queue was searched
     //Let's travel along the station/track to find next station and ride exit coords
     //If there's only 1 station, select the Exit at that station.
-    TileElement* startElement = ride_get_station_start_track_element(ride, stationIndex);
+    TileElement* startElement = RideGetStationStartTrackElement(*ride, stationIndex);
     CoordsXYZ stationPosition = ride->GetStation(stationIndex).GetStart();
     StationIndex nextStationIndex = stationIndex;
 
@@ -2438,29 +2439,29 @@ static bool guest_path_find_transport_station(Guest* Guest, Ride* ride, StationI
 
         CoordsXYE currentCoords = startCoords;
         CoordsXYE nextCoords = currentCoords;
-        track_begin_end trackBeginEnd;
+        TrackBeginEnd trackBeginEnd;
         track_type_t trackType = 0;
         bool directionForward = true;
 
         do
         {
-            if(directionForward && track_block_get_next(&currentCoords, &nextCoords, nullptr, nullptr))
+            if(directionForward && TrackBlockGetNext(&currentCoords, &nextCoords, nullptr, nullptr))
             {
                 currentCoords = nextCoords;
                 trackType = currentCoords.element->AsTrack()->GetTrackType();
-                if( track_type_is_station(trackType) || trackType == TrackElemType::TowerBase)
+                if( TrackTypeIsStation(trackType) || trackType == TrackElemType::TowerBase)
                 {
                     break;
                 }
             }
-            else if(track_block_get_previous(currentCoords, &trackBeginEnd))
+            else if(TrackBlockGetPrevious(currentCoords, &trackBeginEnd))
             {
                 directionForward = false;
                 currentCoords.x = trackBeginEnd.end_x;
                 currentCoords.y = trackBeginEnd.end_y;
                 currentCoords.element = trackBeginEnd.begin_element;
                 trackType = currentCoords.element->AsTrack()->GetTrackType();
-                if( (track_type_is_station(trackType) || trackType == TrackElemType::TowerBase) &&
+                if( (TrackTypeIsStation(trackType) || trackType == TrackElemType::TowerBase) &&
                     (currentCoords.element->AsTrack()->GetStationIndex() != stationIndex) ) // Since we're searching backwards, we need to ignore the starting stationIndex
                 {
                     break;
@@ -2471,7 +2472,7 @@ static bool guest_path_find_transport_station(Guest* Guest, Ride* ride, StationI
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
                 if (_pathFindDebug)
                 {
-                    log_info("[%03d] Failed to find Next Station");
+                    LOG_INFO("[%03d] Failed to find Next Station");
                 }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2            
                 return false;
@@ -2483,24 +2484,24 @@ static bool guest_path_find_transport_station(Guest* Guest, Ride* ride, StationI
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
         if (_pathFindDebug)
         {
-            log_info("[%03d] Found Next Station at %d,%d", *transportPenalty, currentCoords.x >> 5, currentCoords.y >> 5);
+            LOG_INFO("[%03d] Found Next Station at %d,%d", *transportPenalty, currentCoords.x >> 5, currentCoords.y >> 5);
         }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
     }
 
     TileCoordsXYZD nextExit = ride->GetStation(nextStationIndex).Exit;
-    TileElement* exitElement = ride_get_station_exit_element(nextExit.ToCoordsXYZ());
+    TileElement* exitElement = RideGetStationExitElement(nextExit.ToCoordsXYZ());
 #if defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
     if (_pathFindDebug)
     {
-        log_info("[%03d] Found Next Exit at %d,%d", *transportPenalty, nextExit.x, nextExit.y);
+        LOG_INFO("[%03d] Found Next Exit at %d,%d", *transportPenalty, nextExit.x, nextExit.y);
     }
 #endif // defined(DEBUG_LEVEL_2) && DEBUG_LEVEL_2
 
     transportExit->x = nextExit.x;
     transportExit->y = nextExit.y;
     transportExit->z = nextExit.z;
-    transportExit->direction = direction_reverse(nextExit.direction);
+    transportExit->direction = DirectionReverse(nextExit.direction);
     *transportTileElement = exitElement;
 
     return true;
@@ -2511,7 +2512,7 @@ void PathfindLoggingEnable([[maybe_unused]] Peep& peep)
 {
 #    if defined(PATHFIND_DEBUG) && PATHFIND_DEBUG
     /* Determine if the pathfinding debugging is wanted for this peep. */
-    FormatStringLegacy(gPathFindDebugPeepName, sizeof(gPathFindDebugPeepName), peep.name_string_idx, &(peep.PeepId));
+    // FormatStringLegacy(_pathFindDebugPeepName, sizeof(_pathFindDebugPeepName), peep.name_string_idx, &(peep.PeepId));
 
     /* For guests, use the existing PEEP_FLAGS_TRACKING flag to
      * determine for which guest(s) the pathfinding debugging will

@@ -1423,7 +1423,7 @@ void Peep::FormatActionTo(Formatter& ft) const
                     auto ride = GetRide(guest->GuestHeadingToRideId);
                     if (ride != nullptr)
                     {
-                        auto transport = get_ride(guest->PathfindTransport.TransportId);
+                        auto transport = GetRide(guest->PathfindTransport.TransportId);
                         if(guest->PathfindTransport.TransportUsing && transport != nullptr)
                         {
                             ft.Add<StringId>(STR_USING_TRANSPORT);
@@ -1440,7 +1440,7 @@ void Peep::FormatActionTo(Formatter& ft) const
                 {
                     if(PeepFlags & PEEP_FLAGS_LEAVING_PARK)
                     {
-                        auto transport = get_ride(guest->PathfindTransport.TransportId);
+                        auto transport = GetRide(guest->PathfindTransport.TransportId);
                         if(guest->PathfindTransport.TransportUsing && transport != nullptr)
                         {
                             ft.Add<StringId>(STR_LEAVE_USING_TRANSPORT);
