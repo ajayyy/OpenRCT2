@@ -1360,7 +1360,7 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
     if (peep.Is<Guest>())
     {
         Guest* guest = peep.As<Guest>();
-        if (guest->PathfindTransport.TransportUsing && !guest->PathfindTransport.TransportId.IsNull())
+        if (guest != nullptr && guest->PathfindTransport.TransportUsing && !guest->PathfindTransport.TransportId.IsNull())
         {
             Ride* transportRide = GetRide(guest->PathfindTransport.TransportId);
             const auto& transportStation = transportRide->GetStation(guest->PathfindTransport.TransportStation);
@@ -1689,7 +1689,9 @@ Direction OriginalPathfinding::ChooseDirection(const TileCoordsXYZ& loc, Peep& p
     if (peep.Is<Guest>())
     {
         Guest* guest = peep.As<Guest>();
-        guest->PathfindTransport = currTransport;
+        if (guest != nullptr){
+            guest->PathfindTransport = currTransport;
+        }
     }
 
     if (isThin)
